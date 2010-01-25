@@ -1,15 +1,15 @@
-package example;
+package example.builders;
 
 import com.natpryce.makeiteasy.Maker;
 import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.PropertyProvider;
-import com.natpryce.makeiteasy.PropertyValue;
+import example.Apple;
 
 
 public class AppleMaker extends FruitMaker<Apple> {
     public static final Property<Apple, Integer> leaves = new Property<Apple, Integer>();
 
-    public static Maker<Apple> anApple(PropertyValue<? super Apple, ?>... properties) {
+    public static Maker<Apple> anApple(PropertyProvider<? super Apple>... properties) {
         return new AppleMaker(properties);
     }
     
