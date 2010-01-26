@@ -1,9 +1,9 @@
-package example.builders;
+package example.fruit.builders;
 
 import com.natpryce.makeiteasy.Maker;
 import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.PropertyProvider;
-import example.Apple;
+import example.fruit.Apple;
 
 
 public class AppleMaker extends FruitMaker<Apple> {
