@@ -55,7 +55,7 @@ public class Maker<T> implements PropertyLookup<T> {
                     Object value = maker.values.get(property);
 
                     // Cast necessary to work around weakness in wildcards
-                    propertyCollector.collectPropertyValue((Property<?,Object>) property, value);
+                    propertyCollector.collectPropertyValue((Property<? super T,Object>) property, value);
                 }
             }
         };
