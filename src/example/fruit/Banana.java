@@ -1,4 +1,4 @@
-package example;
+package example.fruit;
 
 public class Banana extends Fruit {
     public final double curve;

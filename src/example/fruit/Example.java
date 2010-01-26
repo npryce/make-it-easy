@@ -1,14 +1,14 @@
-package example;
+package example.fruit;
 
 import com.natpryce.makeiteasy.Maker;
 
 import static com.natpryce.makeiteasy.Maker.like;
 import static com.natpryce.makeiteasy.Maker.make;
 import static com.natpryce.makeiteasy.Maker.with;
-import static example.builders.AppleMaker.anApple;
-import static example.builders.AppleMaker.leaves;
-import static example.builders.BananaMaker.aBanana;
-import static example.builders.FruitMaker.ripeness;
+import static example.fruit.builders.AppleMaker.anApple;
+import static example.fruit.builders.AppleMaker.leaves;
+import static example.fruit.builders.BananaMaker.aBanana;
+import static example.fruit.builders.FruitMaker.ripeness;
 
 
 @SuppressWarnings({"UnusedDeclaration"})

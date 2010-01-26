@@ -1,4 +1,4 @@
-package example;
+package example.fruit;
 
 public class Fruit {
     private double ripeness = 0.0;
