@@ -5,8 +5,8 @@ import com.natpryce.makeiteasy.PropertyCollector;
 import com.natpryce.makeiteasy.PropertyProvider;
 
 public class PropertyValue<T,V> implements PropertyProvider<T> {
-    public final Property<T,V> property;
-    public final V value;
+    private final Property<T,V> property;
+    private final V value;
     
     public PropertyValue(Property<T,V> property, V value) {
         this.property = property;
@@ -14,6 +14,6 @@ public class PropertyValue<T,V> implements PropertyProvider<T> {
     }
 
     public void providePropertiesTo(PropertyCollector<? extends T> propertyCollector) {
-        propertyCollector.collectPropertyValue(this);
+        propertyCollector.collectPropertyValue(property, value);
     }
 }

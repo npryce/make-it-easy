@@ -1,31 +1,32 @@
 package com.natpryce.makeiteasy;
 
-import com.natpryce.makeiteasy.PropertyCollector;
-import com.natpryce.makeiteasy.PropertyProvider;
-import com.natpryce.makeiteasy.PropertyValue;
-
 import java.util.HashMap;
 import java.util.Map;
 
 
-public abstract class Maker<T> {
-    private Map<Property<? super T, ?>, Object> values = new HashMap<Property<? super T, ?>, Object>();
+public class Maker<T> implements PropertyLookup<T> {
+    private final Instantiator<T> instantiator;
+    private final Map<Property<? super T, ?>, Object> values = new HashMap<Property<? super T, ?>, Object>();
 
-    public Maker(PropertyProvider<? super T>... propertyProviders) {
+    public Maker(Instantiator<T> instantiator, PropertyProvider<? super T>... propertyProviders) {
+        this.instantiator = instantiator;
         for (PropertyProvider<? super T> provider : propertyProviders) {
             provider.providePropertiesTo(new PropertyCollector<T>() {
-                public void collectPropertyValue(PropertyValue<? super T, ?> propertyValue) {
-                    values.put(propertyValue.property, propertyValue.value);
+                @Override
+                public <V> void collectPropertyValue(Property<? super T, V> property, V value) {
+                    values.put(property, value);
                 }
             });
         }
     }
 
 
-    public abstract T make();
+    public T make() {
+        return instantiator.instantiate(this);
+    }
 
     @SuppressWarnings({"SuspiciousMethodCalls"})
-    protected <T, V> V valueFor(Property<? super T, V> property, V defaultValue) {
+    public <V> V valueOf(Property<? super T, V> property, V defaultValue) {
         if (values.containsKey(property)) {
             return (V)values.get(property);
         }
@@ -33,7 +34,15 @@ public abstract class Maker<T> {
             return defaultValue;
         }
     }
+
+    public static <T> Maker<T> a(Instantiator<T> instantiator, PropertyProvider<? super T> ... propertyProviders) {
+        return new Maker<T>(instantiator, propertyProviders);
+    }
     
+    public static <T> Maker<T> an(Instantiator<T> instantiator, PropertyProvider<? super T> ... propertyProviders) {
+        return new Maker<T>(instantiator, propertyProviders);
+    }
+
     public static <T> T make(Maker<T> maker) {
         return maker.make();
     }
@@ -42,8 +51,11 @@ public abstract class Maker<T> {
         return new PropertyProvider<T>() {
             @Override
             public void providePropertiesTo(PropertyCollector<? extends T> propertyCollector) {
-                for (Map.Entry<Property<? super T, ?>, Object> entry : maker.values.entrySet()) {
-                    maker.values.put(entry.getKey(), entry.getValue());
+                for (Property<? super T, ?> property : maker.values.keySet()) {
+                    Object value = maker.values.get(property);
+
+                    // Cast necessary to work around weakness in wildcards
+                    propertyCollector.collectPropertyValue((Property<?,Object>) property, value);
                 }
             }
         };

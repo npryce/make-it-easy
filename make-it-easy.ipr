@@ -232,6 +232,13 @@
   <component name="ProjectDetails">
     <option name="projectName" value="make-it-easy" />
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="nat">
+      <words>
+        <w>instantiator</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectKey">
     <option name="state" value="https://make-it-easy.googlecode.com/svn/trunk/make-it-easy.ipr" />
   </component>
