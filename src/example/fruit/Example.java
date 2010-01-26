@@ -2,7 +2,9 @@ package example.fruit;
 
 import com.natpryce.makeiteasy.Maker;
 
-import static com.natpryce.makeiteasy.Maker.*;
+import static com.natpryce.makeiteasy.MakeItEasy.*;
+import static example.fruit.FruitMakers.Apple;
+import static example.fruit.FruitMakers.Banana;
 import static example.fruit.FruitMakers.*;
 
 
