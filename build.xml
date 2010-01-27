@@ -35,10 +35,17 @@
              basedir="${basedir}/src"
              includes="com/natpryce/**/*"/>
     </target>
+
+    <target name="javadoc">
+        <javadoc destdir="${dist.dir}/doc">
+            <packageset dir="src" includes="com/natpryce/**" excludes="**/internal/**"/>
+        </javadoc>
+    </target>
     
-    <target name="zip" depends="jars">
+    <target name="zip" depends="jars, javadoc">
         <zip file="${module.make-it-easy.basedir}/out/${product}.zip"
              basedir="${module.make-it-easy.basedir}/out"
-             includes="${product}/**"/>
+             includes="${product}/**"
+             excludes="${product}/*-tests.jar"/>
     </target>
 </project>
