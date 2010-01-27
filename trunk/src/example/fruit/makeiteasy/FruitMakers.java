@@ -1,13 +1,20 @@
-package example.fruit;
+package example.fruit.makeiteasy;
 
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.PropertyLookup;
+import example.fruit.Apple;
+import example.fruit.Banana;
+import example.fruit.Fruit;
+
+import static com.natpryce.makeiteasy.Property.newProperty;
 
 public class FruitMakers {
-    public static final Property<Fruit,Double> ripeness = new Property<Fruit,Double>();
+    public static final Property<Fruit,Double> ripeness = newProperty();
 
-    public static final Property<Apple, Integer> leaves = new Property<Apple, Integer>();
+    public static final Property<Apple, Integer> leaves = newProperty();
+
+    public static final Property<Banana,Double> curve = newProperty();
 
     public static final Instantiator<Apple> Apple = new Instantiator<Apple>() {
         @Override
@@ -18,8 +25,6 @@ public class FruitMakers {
         }
     };
 
-    public static final Property<Banana,Double> curve = new Property<Banana,Double>();
-    
     public static final Instantiator<Banana> Banana = new Instantiator<Banana>() {
         @Override
         public Banana instantiate(PropertyLookup<Banana> lookup) {
