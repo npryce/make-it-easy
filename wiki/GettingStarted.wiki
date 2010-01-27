@@ -1,4 +1,5 @@
 #summary how to get started with Make It Easy.
+#labels Featured
 
 Assuming you've downloaded Make It Easy and added the JAR to your classpath, here's how you use the library to write a Test Data Builder for the following class.
 
@@ -54,8 +55,8 @@ public class PersonMaker {
 
     public static final Instantiator<Person> Person = new Instantiator<Person>() {
         public Person instantiate(PropertyLookup<Person> lookup) {
-            return new Person(lookup.valueOf(name, "Bob"),
-                              lookup.valueOf(age, 99));
+            return new Person(lookup.valueOf(name, "Bob"), // default name is "Bob"
+                              lookup.valueOf(age, 99));    // default age is 99
         }
     };
 }
@@ -80,4 +81,19 @@ We can specify properties like this:
 
 {{{
 Person person make(a(Person, with(name, "Nat"), with(age, 21)));
+}}}
+
+We can define a person maker to be used multiple times, as follows.  Note that we've not defined all the properties, so any Person made by the oldPerson maker has the default name defined by the Instantiator we wrote above.
+
+{{{
+Maker<Person> anOldPerson = a(Person, with(age, 80));
+
+doSomethingWith(make(anOldPerson));
+}}}
+
+We can use that to define other person makers:
+
+{{{
+Maker<Person> anOldWoman = anOldPerson.but(with(name, "Alice"));
+Maker<Person> anOldMan = anOldPerson.but(with(name, "Bill"));
 }}}
