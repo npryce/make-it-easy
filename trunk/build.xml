@@ -9,7 +9,7 @@
     <target name="dist" depends="reset, test, zip"/>
 
     <target name="reset">
-        <delete file="out"/>
+        <delete dir="out"/>
     </target>
     
     <target name="test" depends="jars">
