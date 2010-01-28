@@ -1,0 +1,51 @@
+<project name="make-it-easy-build" default="dist">
+    <import file="make-it-easy.xml"/>
+    
+    <property name="version" value="SNAPSHOT"/>
+    <property name="product" value="make-it-easy-${version}"/>
+    
+    <property name="dist.dir" value="${module.make-it-easy.basedir}/out/${product}"/>
+    
+    <target name="dist" depends="reset, test, zip"/>
+
+    <target name="reset">
+        <delete dir="out"/>
+    </target>
+    
+    <target name="test" depends="jars">
+        <junit haltonfailure="true" fork="true" printsummary="true">
+            <classpath>
+                <fileset dir="${dist.dir}" includes="*.jar" excludes="*-src.jar"/>
+                <path refid="make-it-easy.module.classpath"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="${basedir}/tests" includes="**/*Test.java" excludes="**/Abstract*.java"/>
+            </batchtest>
+        </junit>
+    </target>
+    
+    <target name="jars" depends="build.modules">
+        <mkdir dir="${dist.dir}"/>
+        <jar file="${dist.dir}/${product}.jar"
+             basedir="${make-it-easy.output.dir}"
+             includes="com/natpryce/**/*"/>
+        <jar file="${dist.dir}/${product}-tests.jar"
+             basedir="${make-it-easy.testoutput.dir}"/>
+        <jar file="${dist.dir}/${product}-src.jar"
+             basedir="${basedir}/src"
+             includes="com/natpryce/**/*"/>
+    </target>
+
+    <target name="javadoc">
+        <javadoc destdir="${dist.dir}/doc">
+            <packageset dir="src" includes="com/natpryce/**" excludes="**/internal/**"/>
+        </javadoc>
+    </target>
+    
+    <target name="zip" depends="jars, javadoc">
+        <zip file="${module.make-it-easy.basedir}/out/${product}.zip"
+             basedir="${module.make-it-easy.basedir}/out"
+             includes="${product}/**"
+             excludes="${product}/*-tests.jar"/>
+    </target>
+</project>
