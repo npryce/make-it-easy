@@ -74,13 +74,13 @@ import static example.PersonMaker.*;
 We then create new Person objects with default properties like this:
 
 {{{
-Person person = make(a(Person));
+Person somebody = make(a(Person));
 }}}
 
 We can specify properties like this:
 
 {{{
-Person person make(a(Person, with(name, "Nat"), with(age, 21)));
+Person nat = make(a(Person, with(name, "Nat"), with(age, 21)));
 }}}
 
 We can define a person maker to be used multiple times, as follows.  Note that we've not defined all the properties, so any Person made by the oldPerson maker has the default name defined by the Instantiator we wrote above.
