@@ -1,6 +1,6 @@
 package example.fruit;
 
-public class Fruit {
+public abstract class Fruit {
     private double ripeness = 0.0;
 
     public void ripen(double amount) {
