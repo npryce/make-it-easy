@@ -1,5 +1,14 @@
 package com.natpryce.makeiteasy;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+
 /**
  * Syntactic sugar for using Make It Easy test-data builders.
  */
@@ -30,5 +39,24 @@ public class MakeItEasy {
     
     public static <T> T make(Maker<T> maker) {
         return maker.make();
+    }
+    
+    public static <T> List<T> listOf(Maker<T> ... makers) {
+        return fill(new ArrayList<T>(makers.length), makers);
+    }
+
+    public static <T> Set<T> setOf(Maker<T> ... makers) {
+        return fill(new HashSet<T>(), makers);
+    }
+    
+    public static <T extends Comparable<T>> SortedSet<T> sortedSetOf(Maker<T> ... makers) {
+        return fill(new TreeSet<T>(), makers);
+    }
+    
+    private static <T, C extends Collection<T>> C fill(C collection, Maker<T>... makers) {
+        for (Maker<T> maker : makers) {
+            collection.add(maker.make());
+        }
+        return collection;
     }
 }
