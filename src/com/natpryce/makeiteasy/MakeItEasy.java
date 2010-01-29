@@ -45,16 +45,16 @@ public class MakeItEasy {
         return fill(new ArrayList<T>(makers.length), makers);
     }
 
-    public static <T> Set<T> setOf(Maker<T> ... makers) {
+    public static <T> Set<T> setOf(Maker<? extends T> ... makers) {
         return fill(new HashSet<T>(), makers);
     }
     
-    public static <T extends Comparable<T>> SortedSet<T> sortedSetOf(Maker<T> ... makers) {
+    public static <T extends Comparable<T>> SortedSet<T> sortedSetOf(Maker<? extends T> ... makers) {
         return fill(new TreeSet<T>(), makers);
     }
     
-    private static <T, C extends Collection<T>> C fill(C collection, Maker<T>... makers) {
-        for (Maker<T> maker : makers) {
+    private static <T, C extends Collection<T>> C fill(C collection, Maker<? extends T>... makers) {
+        for (Maker<? extends T> maker : makers) {
             collection.add(maker.make());
         }
         return collection;
