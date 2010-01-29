@@ -3,7 +3,9 @@ package example.fruit.makeiteasy;
 import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.an;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
+import static com.natpryce.makeiteasy.MakeItEasy.setOf;
 import static com.natpryce.makeiteasy.MakeItEasy.with;
+import static com.natpryce.makeiteasy.MakeItEasy.listOf;
 import com.natpryce.makeiteasy.Maker;
 import example.fruit.Apple;
 import example.fruit.Banana;
@@ -18,8 +20,6 @@ import static example.fruit.makeiteasy.StrudelMaker.Strudel;
 import static example.fruit.makeiteasy.StrudelMaker.apples;
 import static example.fruit.makeiteasy.TreeMaker.BananaTree;
 import static example.fruit.makeiteasy.TreeMaker.bananas;
-
-import static java.util.Arrays.asList;
 
 
 @SuppressWarnings({"UnusedDeclaration"})
@@ -36,20 +36,17 @@ public class MakeItEasyExample {
         Banana straightBanana = make(a(Banana, with(curve, 0.0)));
         Banana squishyBanana = make(a(Banana, with(ripeness, 1.0)));
     }
-    
+
     public static void strudelExampleIllustratingHowToMakeObjectsWithPropertiesThatAreCollections() {
-        Strudel strudel = make(a(Strudel, with(apples, asList(
-            make(an(Apple, with(ripeness, 0.5))),
-            make(an(Apple, with(ripeness, 0.35)))
+        Strudel strudel = make(a(Strudel, with(apples, listOf(
+            an(Apple, with(ripeness, 0.5)),
+            an(Apple, with(ripeness, 0.35))
         ))));
     }
 
     // Yuck! But Java does not do type inference properly.
     public static void treeExampleIllustratingHowToMakeGenericObjects() {
-        Tree<Banana> bananaTree = make(a(BananaTree, with(bananas, asList(
-            make(a(Banana)),
-            make(a(Banana)),
-            make(a(Banana))
-        ))));
+        Tree<Banana> bananaTree = make(a(BananaTree,
+            with(bananas, setOf(a(Banana), a(Banana), a(Banana)))));
     }
 }
