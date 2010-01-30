@@ -1,23 +1,15 @@
 package example.fruit.makeiteasy;
 
-import static com.natpryce.makeiteasy.MakeItEasy.a;
-import static com.natpryce.makeiteasy.MakeItEasy.an;
-import static com.natpryce.makeiteasy.MakeItEasy.make;
-import static com.natpryce.makeiteasy.MakeItEasy.setOf;
-import static com.natpryce.makeiteasy.MakeItEasy.with;
-import static com.natpryce.makeiteasy.MakeItEasy.listOf;
 import com.natpryce.makeiteasy.Maker;
 import example.fruit.Apple;
+import example.fruit.AppleCart;
 import example.fruit.Banana;
-import example.fruit.Strudel;
 import example.fruit.Tree;
-import static example.fruit.makeiteasy.FruitMakers.Apple;
-import static example.fruit.makeiteasy.FruitMakers.Banana;
-import static example.fruit.makeiteasy.FruitMakers.curve;
-import static example.fruit.makeiteasy.FruitMakers.leaves;
-import static example.fruit.makeiteasy.FruitMakers.ripeness;
-import static example.fruit.makeiteasy.StrudelMaker.Strudel;
-import static example.fruit.makeiteasy.StrudelMaker.apples;
+
+import static com.natpryce.makeiteasy.MakeItEasy.*;
+import static example.fruit.makeiteasy.AppleCartMaker.AppleCart;
+import static example.fruit.makeiteasy.AppleCartMaker.apples;
+import static example.fruit.makeiteasy.FruitMakers.*;
 import static example.fruit.makeiteasy.TreeMaker.BananaTree;
 import static example.fruit.makeiteasy.TreeMaker.bananas;
 
@@ -38,7 +30,7 @@ public class MakeItEasyExample {
     }
 
     public static void strudelExampleIllustratingHowToMakeObjectsWithPropertiesThatAreCollections() {
-        Strudel strudel = make(a(Strudel, with(apples, listOf(
+        AppleCart strudel = make(a(AppleCart, with(apples, listOf(
             an(Apple, with(ripeness, 0.5)),
             an(Apple, with(ripeness, 0.35))
         ))));

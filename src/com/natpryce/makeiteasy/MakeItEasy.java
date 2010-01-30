@@ -1,12 +1,6 @@
 package com.natpryce.makeiteasy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 /**
@@ -41,10 +35,10 @@ public class MakeItEasy {
         return maker.make();
     }
     
-    public static <T> List<T> listOf(Maker<T> ... makers) {
+    public static <T> List<T> listOf(Maker<? extends T> ... makers) {
         return fill(new ArrayList<T>(makers.length), makers);
     }
-
+    
     public static <T> Set<T> setOf(Maker<? extends T> ... makers) {
         return fill(new HashSet<T>(), makers);
     }
