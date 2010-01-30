@@ -19,7 +19,7 @@ SVN_ROOT=`svn info | grep "Repository Root:" | cut -c 18-`
 
 echo releasing $SVN_ROOT/$BRANCH as version $VERSION
 
-svn cp $SVN_ROOT/$BRANCH $SVN_ROOT/tags/$VERSION
+svn cp $SVN_ROOT/$BRANCH $SVN_ROOT/tags/$VERSION -m "releasing version $VERSION"
 if [ $? -ne 0 ]
 then
     exit 1
