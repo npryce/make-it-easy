@@ -33,10 +33,10 @@ then
 fi
 
 (cd $BASEDIR/out/release/$VERSION; ant -Dversion=$VERSION)
-if [ $? -ne 0 ]
+if [ $? -ne 0 ]./out/release/1.1.0/*.zip
 then
     exit 1
 fi
 
 # Todo - automatically upload to Google project
-echo upload $BASEDIR/out/release/$VERSION/*.zip
+echo upload `ls $BASEDIR/out/release/$VERSION/out/*.zip`
