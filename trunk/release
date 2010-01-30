@@ -27,6 +27,7 @@ then
 fi
 
 mkdir -p $BASEDIR/out/release
+rm -rf $BASEDIR/out/release/*
 svn export $SVN_ROOT/tags/$VERSION $BASEDIR/out/release/$VERSION
 if [ $? -ne 0 ]
 then
