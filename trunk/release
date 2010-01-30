@@ -11,7 +11,8 @@ then
         echo "uncommitted changes in working copy: commit changes or specify explicit revision"
         exit 1
     fi
-    
+
+    svn up
     BRANCH=trunk@`svn info | grep "Revision:" | cut -c 11-`
 fi
 
