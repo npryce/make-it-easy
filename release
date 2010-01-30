@@ -6,6 +6,12 @@ BRANCH=$2
 
 if [ -z $BRANCH ]
 then
+    if [ "`svn st -q`" != "" ];
+    then
+        echo "uncommitted changes in working copy: commit changes or specify explicit revision"
+        exit 1
+    fi
+    
     BRANCH=trunk@`svn info | grep "Revision:" | cut -c 11-`
 fi
 
