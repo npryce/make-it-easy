@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="make-it-easy" default="all">
+  
+  
+  <property file="make-it-easy.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.junit.classpath">
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module make-it-easy -->
+  
+  <dirname property="module.make-it-easy.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.make-it-easy" value="${compiler.args}"/>
+  
+  <property name="make-it-easy.output.dir" value="${module.make-it-easy.basedir}/out/production/make-it-easy"/>
+  <property name="make-it-easy.testoutput.dir" value="${module.make-it-easy.basedir}/out/test/make-it-easy"/>
+  
+  <path id="make-it-easy.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="make-it-easy.module.classpath">
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  <path id="make-it-easy.runtime.module.classpath">
+    <pathelement location="${make-it-easy.output.dir}"/>
+    <pathelement location="${make-it-easy.testoutput.dir}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.make-it-easy">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.make-it-easy">
+    <patternset refid="excluded.from.module.make-it-easy"/>
+  </patternset>
+  
+  <path id="make-it-easy.module.sourcepath">
+    <dirset dir="${module.make-it-easy.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  <path id="make-it-easy.module.test.sourcepath">
+    <dirset dir="${module.make-it-easy.basedir}">
+      <include name="tests"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.make-it-easy" depends="compile.module.make-it-easy.production,compile.module.make-it-easy.tests" description="Compile module make-it-easy"/>
+  
+  <target name="compile.module.make-it-easy.production" description="Compile module make-it-easy; production classes">
+    <mkdir dir="${make-it-easy.output.dir}"/>
+    <javac destdir="${make-it-easy.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.make-it-easy}"/>
+      <bootclasspath refid="make-it-easy.module.bootclasspath"/>
+      <classpath refid="make-it-easy.module.classpath"/>
+      <src refid="make-it-easy.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.make-it-easy"/>
+    </javac>
+    
+    <copy todir="${make-it-easy.output.dir}">
+      <fileset dir="${module.make-it-easy.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.make-it-easy.tests" depends="compile.module.make-it-easy.production" description="compile module make-it-easy; test classes" unless="skip.tests">
+    <mkdir dir="${make-it-easy.testoutput.dir}"/>
+    <javac destdir="${make-it-easy.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.make-it-easy}"/>
+      <classpath refid="make-it-easy.module.classpath"/>
+      <classpath>
+        <path refid="make-it-easy.module.classpath"/>
+        <pathelement location="${make-it-easy.output.dir}"/>
+      </classpath>
+      <src refid="make-it-easy.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.make-it-easy"/>
+    </javac>
+    
+    <copy todir="${make-it-easy.testoutput.dir}">
+      <fileset dir="${module.make-it-easy.basedir}/tests">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.make-it-easy" description="cleanup module">
+    <delete dir="${make-it-easy.output.dir}"/>
+    <delete dir="${make-it-easy.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.make-it-easy" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.make-it-easy" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
