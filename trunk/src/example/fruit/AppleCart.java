@@ -1,26 +1,28 @@
 package example.fruit;
 
-import example.fruit.makeiteasy.StrudelMaker;
-
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 
 /**
  * An example of how to define builders for properties that are collections.
  *
- * @see {@link StrudelMaker}
+ * @see example.fruit.makeiteasy.AppleCartMaker
  */
-public class Strudel {
+public class AppleCart {
     private final Set<Apple> apples = new HashSet<Apple>();
 
-    public Strudel(Iterable<Apple> apples) {
+    public AppleCart(Iterable<Apple> apples) {
         for (Apple apple : apples) {
             this.apples.add(apple);
         }
     }
 
-    public int howManyApples() {
+    public int currentLoad() {
         return apples.size();
+    }
+
+    public void upset() {
+        apples.clear();
     }
 }
