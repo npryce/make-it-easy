@@ -32,8 +32,6 @@ then
     exit 1
 fi
 
-exit 0
-
 (cd $BASEDIR/out/release/$VERSION; ant -Dversion=$VERSION)
 if [ $? -ne 0 ]
 then
