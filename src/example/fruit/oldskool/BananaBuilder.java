@@ -13,9 +13,9 @@ public class BananaBuilder implements Builder<Banana> {
     }
 
     public Banana build() {
-        Banana apple = new Banana(curve);
-        apple.ripen(ripeness);
-        return apple;
+        Banana banana = new Banana(curve);
+        banana.ripen(ripeness);
+        return banana;
     }
 
     public BananaBuilder withRipeness(double ripeness){
