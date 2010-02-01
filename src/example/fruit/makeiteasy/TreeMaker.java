@@ -27,10 +27,17 @@ import java.util.List;
  * and BananaTree instantiators below.
  */
 public class TreeMaker {
-    public static <F extends Fruit> Property<Tree<F>, Iterable<? extends F>> fruit() {
-        return newProperty();
-    }
+    /* We must have a single instance of the fruit property for equals & hashCode to work properly...
+     */
+    private static final Property<?,?> fruit = newProperty();
 
+    /* But because constants cannot have generic wildcards, we must expose the constant through a
+     * generic method that forces the property to have the required static type
+     */
+    public static <F extends Fruit> Property<Tree<F>, Iterable<? extends F>> fruit() {
+        return (Property<Tree<F>, Iterable<? extends F>>)fruit;
+    }
+    
     public static <F extends Fruit> Instantiator<Tree<F>> Tree() {
         return new Instantiator<Tree<F>>() {
             @Override
@@ -43,9 +50,16 @@ public class TreeMaker {
         };
     }
 
+    /* We have to define constants to explictly bind all the type parameters.  Code that uses
+     * the fruit() and Tree() factory functions in maker expressions won't compile even though it
+     * is type-safe.
+     */
     public static final Instantiator<Tree<Apple>> AppleTree = Tree();
     public static final Property<Tree<Apple>, Iterable<? extends Apple>> apples = fruit();
 
     public static final Instantiator<Tree<Banana>> BananaTree = Tree();
     public static final Property<Tree<Banana>, Iterable<? extends Banana>> bananas = fruit();
+
+    /* I hate the Java type system.
+     */
 }
