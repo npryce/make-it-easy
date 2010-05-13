@@ -11,7 +11,8 @@ import static com.natpryce.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class MutableMakeeTest {
+// See Issue 2.
+public class MadePropertyValuesTest {
     public class Identity {
         public String name;
 
