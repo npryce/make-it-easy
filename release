@@ -35,7 +35,7 @@ then
 fi
 
 (cd $BASEDIR/out/release/$VERSION; ant -Dversion=$VERSION)
-if [ $? -ne 0 ]./out/release/1.1.0/*.zip
+if [ $? -ne 0 ]
 then
     exit 1
 fi
