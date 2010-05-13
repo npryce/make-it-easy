@@ -33,7 +33,7 @@ public class Maker<T> implements PropertyLookup<T> {
 
     private void setPropertyValues(PropertyValue<? super T, ?>[] propertyValues) {
         for (PropertyValue<? super T, ?> propertyValue : propertyValues) {
-            values.put(propertyValue.property, propertyValue.value);
+            values.put(propertyValue.property(), propertyValue.value());
         }
     }
 
