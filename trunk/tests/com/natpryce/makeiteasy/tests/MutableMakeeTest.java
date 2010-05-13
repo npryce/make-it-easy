@@ -47,7 +47,7 @@ public class MutableMakeeTest {
     };
 
     @Test
-    public void test() {
+    public void aDistinctPropertyValueInstanceIsUsedForEachMadeObjectWhenPropertyIsDefinedWithAMaker() {
         Maker<Identified> anIdentified = an(Identified,
                 with(identity, a(CanChangeName, with(name, "original-name"))));
         
