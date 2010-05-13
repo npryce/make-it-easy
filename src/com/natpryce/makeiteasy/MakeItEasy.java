@@ -16,19 +16,19 @@ public class MakeItEasy {
     }
 
     public static <T,V> PropertyValue<T,V> with(Property<T,V> property, V value) {
-        return new PropertyValue<T,V>(property, value);
+        return new SharedPropertyValue<T,V>(property, value);
     }
 
     public static <T,V> PropertyValue<T,V> with(V value, Property<T,V> property) {
-        return new PropertyValue<T,V>(property, value);
+        return new SharedPropertyValue<T,V>(property, value);
     }
 
     public static <T,V> PropertyValue<T,V> with(Property<T,V> property, Maker<V> valueMaker) {
-        return new PropertyValue<T,V>(property, valueMaker.make());
+        return new SharedPropertyValue<T,V>(property, valueMaker.make());
     }
 
     public static <T,V> PropertyValue<T,V> with(Maker<V> valueMaker, Property<T,V> property) {
-        return new PropertyValue<T,V>(property, valueMaker.make());
+        return new SharedPropertyValue<T,V>(property, valueMaker.make());
     }
     
     public static <T> T make(Maker<T> maker) {
