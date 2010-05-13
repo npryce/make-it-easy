@@ -24,11 +24,11 @@ public class MakeItEasy {
     }
 
     public static <T,V> PropertyValue<T,V> with(Property<T,V> property, Maker<V> valueMaker) {
-        return new SharedPropertyValue<T,V>(property, valueMaker.make());
+        return new DistinctPropertyValue<T,V>(property, valueMaker);
     }
 
     public static <T,V> PropertyValue<T,V> with(Maker<V> valueMaker, Property<T,V> property) {
-        return new SharedPropertyValue<T,V>(property, valueMaker.make());
+        return new DistinctPropertyValue<T,V>(property, valueMaker);
     }
     
     public static <T> T make(Maker<T> maker) {

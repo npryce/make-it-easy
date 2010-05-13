@@ -10,8 +10,8 @@ import java.util.Map;
  * @param <T> the type of object to make
  */
 public class Maker<T> implements PropertyLookup<T> {
+    private final Map<Property<? super T, ?>, PropertyValue<? super T, ?>> values = newHashMap();
     private final Instantiator<T> instantiator;
-    private final Map<Property<? super T, ?>, Object> values;
 
     /**
      * Creates a Maker for objects of a given type with a given initial state.
@@ -21,19 +21,22 @@ public class Maker<T> implements PropertyLookup<T> {
      */
     public Maker(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyValues) {
         this.instantiator = instantiator;
-        this.values = new HashMap<Property<? super T, ?>, Object>();
         setPropertyValues(propertyValues);
     }
-
+    
+    private static <K,V> Map<K,V> newHashMap() {
+        return new HashMap<K,V>();
+    }
+    
     private Maker(Maker<T> that, PropertyValue<? super T, ?>... propertyValues) {
         this.instantiator = that.instantiator;
-        this.values = new HashMap<Property<? super T,?>, Object>(that.values);
+        this.values.putAll(that.values);
         setPropertyValues(propertyValues);
     }
 
     private void setPropertyValues(PropertyValue<? super T, ?>[] propertyValues) {
         for (PropertyValue<? super T, ?> propertyValue : propertyValues) {
-            values.put(propertyValue.property(), propertyValue.value());
+            values.put(propertyValue.property(), propertyValue);
         }
     }
 
@@ -65,7 +68,7 @@ public class Maker<T> implements PropertyLookup<T> {
     @SuppressWarnings({"SuspiciousMethodCalls"})
     public <V> V valueOf(Property<? super T, V> property, V defaultValue) {
         if (values.containsKey(property)) {
-            return (V)values.get(property);
+            return (V) values.get(property).value();
         }
         else {
             return defaultValue;

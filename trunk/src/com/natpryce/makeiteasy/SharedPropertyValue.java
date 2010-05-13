@@ -15,17 +15,11 @@ public class SharedPropertyValue<T,V> implements PropertyValue<T,V> {
         this.value = value;
     }
 
-    /**
-     * The property's value
-     */
     @Override
     public V value() {
         return value;
     }
 
-    /**
-     * The property
-     */
     @Override
     public Property<T, V> property() {
         return property;
