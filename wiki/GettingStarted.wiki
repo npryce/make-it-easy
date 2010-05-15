@@ -5,8 +5,8 @@ Assuming you've downloaded Make It Easy and added the JAR to your classpath, her
 
 {{{
 public class Person {
-    private final String name;
-    private final int age;
+    private String name;
+    private int age;
 
     public Person(String name, int age) {
         this.name = name;
