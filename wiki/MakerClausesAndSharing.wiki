@@ -2,7 +2,7 @@
 
 If you define the property of an object with a Maker expression, each instance of the object will get a new value made for its property.  Sometimes that is not what you want, so beware.
 
-For example, the Maker below creates new orders from a person named "Alice".
+For example, the Maker below creates new orders from a customer named "Alice".
 
 {{{
 Maker<Order> anOrder = an(Order, with(customer, a(Customer, with(name, "Alice")))));
