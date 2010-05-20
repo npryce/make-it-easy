@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @param <T> the type of object to make
  */
-public class Maker<T> implements PropertyLookup<T> {
+public class Maker<T> implements PropertyLookup<T>, Donor<T> {
     private final Map<Property<? super T, ?>, PropertyValue<? super T, ?>> values = newHashMap();
     private final Instantiator<T> instantiator;
 
@@ -53,6 +53,11 @@ public class Maker<T> implements PropertyLookup<T> {
         return instantiator.instantiate(this);
     }
 
+    @Override
+    public T value() {
+        return make();
+    }
+    
     /**
      * Returns a new Maker for the same type of object and with the same initial state
      * except where overridden by the given <var>propertyValues</var>.
@@ -65,13 +70,17 @@ public class Maker<T> implements PropertyLookup<T> {
     }
     
     @Override
-    @SuppressWarnings({"SuspiciousMethodCalls"})
     public <V> V valueOf(Property<? super T, V> property, V defaultValue) {
+        return valueOf(property, new SameValueDonor<V>(defaultValue));
+    }
+    
+    @Override
+    public <V> V valueOf(Property<? super T, V> property, Donor<? extends V> defaultValue) {
         if (values.containsKey(property)) {
             return (V) values.get(property).value();
         }
         else {
-            return defaultValue;
+            return defaultValue.value();
         }
     }
 }

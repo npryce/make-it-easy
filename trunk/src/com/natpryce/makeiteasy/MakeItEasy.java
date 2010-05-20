@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * Syntactic sugar for using Make It Easy test-data builders.
  */
+@SuppressWarnings("unused")
 public class MakeItEasy {
     public static <T> Maker<T> a(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return new Maker<T>(instantiator, propertyProviders);
@@ -15,42 +16,49 @@ public class MakeItEasy {
         return new Maker<T>(instantiator, propertyProviders);
     }
 
-    public static <T,V> PropertyValue<T,V> with(Property<T,V> property, V value) {
-        return new SharedPropertyValue<T,V>(property, value);
+    public static <T,V,W extends V> PropertyValue<T,V> with(Property<T,V> property, W value) {
+        return new PropertyValue<T, V>(property, new SameValueDonor<V>(value));
     }
 
-    public static <T,V> PropertyValue<T,V> with(V value, Property<T,V> property) {
-        return new SharedPropertyValue<T,V>(property, value);
+    public static <T,V,W extends V> PropertyValue<T,V> with(W value, Property<T,V> property) {
+        return new PropertyValue<T, V>(property, new SameValueDonor<V>(value));
     }
 
-    public static <T,V> PropertyValue<T,V> with(Property<T,V> property, Maker<V> valueMaker) {
-        return new DistinctPropertyValue<T,V>(property, valueMaker);
+    public static <T,V,W extends V> PropertyValue<T,V> with(Property<T,V> property, Donor<W> valueDonor) {
+        return new PropertyValue<T, V>(property, valueDonor);
     }
 
-    public static <T,V> PropertyValue<T,V> with(Maker<V> valueMaker, Property<T,V> property) {
-        return new DistinctPropertyValue<T,V>(property, valueMaker);
+    public static <T,V,W extends V> PropertyValue<T,V> with(Donor<W> valueDonor, Property<T,V> property) {
+        return new PropertyValue<T, V>(property, valueDonor);
+    }
+
+    public static <T> Donor<T> theSame(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
+        return theSame(an(instantiator, propertyProviders));
+    }
+    
+    public static <T> Donor<T> theSame(Donor<T> originalDonor) {
+        return new SameValueDonor<T>(originalDonor.value());
     }
     
     public static <T> T make(Maker<T> maker) {
-        return maker.make();
+        return maker.value();
     }
     
-    public static <T> List<T> listOf(Maker<? extends T> ... makers) {
-        return fill(new ArrayList<T>(makers.length), makers);
+    public static <T> Donor<List<T>> listOf(Donor<? extends T>... donors) {
+        return new NewCollectionDonor<List<T>, T>(donors) {
+            protected List<T> newCollection() { return new ArrayList<T>(); }
+        };
     }
     
-    public static <T> Set<T> setOf(Maker<? extends T> ... makers) {
-        return fill(new HashSet<T>(), makers);
+    public static <T> Donor<Set<T>> setOf(Donor<? extends T>... donors) {
+        return new NewCollectionDonor<Set<T>, T>(donors) {
+            protected Set<T> newCollection() { return new HashSet<T>(); }
+        };
     }
     
-    public static <T extends Comparable<T>> SortedSet<T> sortedSetOf(Maker<? extends T> ... makers) {
-        return fill(new TreeSet<T>(), makers);
-    }
-    
-    private static <T, C extends Collection<T>> C fill(C collection, Maker<? extends T>... makers) {
-        for (Maker<? extends T> maker : makers) {
-            collection.add(maker.make());
-        }
-        return collection;
+    public static <T extends Comparable<T>> Donor<SortedSet<T>> sortedSetOf(Donor<? extends T>... donors) {
+        return new NewCollectionDonor<SortedSet<T>, T>(donors) {
+            protected SortedSet<T> newCollection() { return new TreeSet<T>(); }
+        };
     }
 }

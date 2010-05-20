@@ -13,5 +13,14 @@ public interface PropertyLookup<T> {
      * @param <V> the type of the value
      * @return the value for the given property, or <var>defaultValue</var> if no value can be found.
      */
-    <V> V valueOf(Property<? super T,V> property, V defaultValue); 
+    <V> V valueOf(Property<? super T,V> property, V defaultValue);
+    
+    /**
+     *
+     * @param property the property for which a value will be returned
+     * @param defaultValueDonor an object that can provide the default value to use if no value can be found
+     * @param <V> the type of the value
+     * @return the value for the given property, or <var>defaultValueDonor.value()</var> if no value can be found.
+     */
+    <V> V valueOf(Property<? super T,V> property, Donor<? extends V> defaultValueDonor);
 }

@@ -22,7 +22,7 @@ public class FruitBowlMaker {
         @Override
         public FruitBowl instantiate(PropertyLookup<FruitBowl> lookup) {
             return new FruitBowl(
-                    lookup.valueOf(contents, listOf(an(Apple), a(Banana))));
+                    lookup.valueOf(contents, listOf(an(Apple), a(Banana)).value()));
         }
     };
 }
