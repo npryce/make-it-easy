@@ -7,10 +7,9 @@ import example.fruit.Apple;
 import example.fruit.AppleCart;
 
 import static com.natpryce.makeiteasy.MakeItEasy.an;
-import static com.natpryce.makeiteasy.MakeItEasy.make;
+import static com.natpryce.makeiteasy.MakeItEasy.listOf;
 import static com.natpryce.makeiteasy.Property.newProperty;
 import static example.fruit.makeiteasy.FruitMakers.Apple;
-import static java.util.Arrays.asList;
 
 
 /**
@@ -22,7 +21,7 @@ public class AppleCartMaker {
     public static final Instantiator<AppleCart> AppleCart = new Instantiator<AppleCart>() {
         @Override
         public AppleCart instantiate(PropertyLookup<AppleCart> lookup) {
-            return new AppleCart(lookup.valueOf(apples, asList(make(an(Apple)))));
+            return new AppleCart(lookup.valueOf(apples, listOf(an(Apple))));
         }
     };
 }
