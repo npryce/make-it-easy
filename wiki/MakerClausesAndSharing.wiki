@@ -19,7 +19,7 @@ Order order2 = make(anOrder);
 
 That's not what we wanted!  We wanted two orders both from the same customer.
 
-To do that, we need to use an instance, not a Maker, in the `with(sender, `...`)` clause:
+To do that, we can use an instance, not a Maker, in the `with(sender, `...`)` clause:
 
 {{{
 Person alice = make(a(Person, with(name, "Alice")));
@@ -30,3 +30,14 @@ Order order2 = make(anOrder);
 }}}
 
 Now order1 and order2 both refer to the same customer.
+
+We can avoid the a variable, and define the Order maker in a single expression, with a "theSame" clause:
+
+{{{
+Maker<Order> anOrder = an(Order, with(customer, theSame(Customer, with(name, "Alice")))));
+
+Order order1 = make(anOrder);
+Order order2 = make(anOrder);
+}}}
+
+Again, order1 and order2 both refer to the same customer.
