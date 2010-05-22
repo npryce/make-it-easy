@@ -100,4 +100,4 @@ Maker<Person> anOldMan = anOldPerson.but(with(name, "Bill"));
 
 == Where Next? ==
 
-* MakerClausesAndSharing
+  * MakerClausesAndSharing
