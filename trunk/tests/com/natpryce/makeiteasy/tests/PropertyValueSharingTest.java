@@ -107,6 +107,7 @@ public class PropertyValueSharingTest {
         SecretAgent x = make(anAgent);
         SecretAgent y = make(anAgent);
 
+        assertThat(x.assumedIdentities, not(sameInstance(y.assumedIdentities)));
         assertThat(x.assumedIdentities.get(0), not(sameInstance(y.assumedIdentities.get(0))));
         assertThat(x.assumedIdentities.get(1), not(sameInstance(y.assumedIdentities.get(1))));
     }
@@ -121,6 +122,7 @@ public class PropertyValueSharingTest {
         SecretAgent x = make(anAgent);
         SecretAgent y = make(anAgent);
 
+        assertThat(x.assumedIdentities, not(sameInstance(y.assumedIdentities)));
         assertThat(x.assumedIdentities.get(0), sameInstance(y.assumedIdentities.get(0)));
         assertThat(x.assumedIdentities.get(1), sameInstance(y.assumedIdentities.get(1)));
     }
