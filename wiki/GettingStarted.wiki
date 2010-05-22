@@ -97,3 +97,7 @@ We can use that to define other person makers:
 Maker<Person> anOldWoman = anOldPerson.but(with(name, "Alice"));
 Maker<Person> anOldMan = anOldPerson.but(with(name, "Bill"));
 }}}
+
+== Where Next? ==
+
+* MakerClausesAndSharing
