@@ -19,7 +19,7 @@ Order order2 = make(anOrder);
 
 That's not what we wanted!  We wanted two orders both from the same customer.
 
-To do that, we can refer to a customer instance, not a Maker<Customer>, in the `with(customer, `...`)` clause:
+To do that, we can pass a Customer instance, not a `Maker<Customer>`, as the second parameter of the `with(customer, `...`)` clause:
 
 {{{
 Person alice = make(a(Person, with(name, "Alice")));
