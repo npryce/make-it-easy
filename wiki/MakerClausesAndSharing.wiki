@@ -1,4 +1,5 @@
 #summary How to ensure objects created by makers are shared or kept distinct
+#labels Featured
 
 If you define the property of an object with a Maker expression, each instance of the object will get a new value made for its property.  Sometimes that is not what you want, so beware.
 
