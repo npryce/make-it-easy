@@ -51,7 +51,7 @@ Sometimes we want values to be allocated from a sequence, so we can predict thei
 
 Make It Easy provides some abstract base classes to help write donors that generate sequences of values.
 
-An IndexedSequence calculates each element of the sequence from its integer index, starting at zero.
+An `IndexedSequence<T>` calculates each element of the sequence from its integer index, starting at zero.
 
 {{{
 class NameSequence extends IndexedSequence<String> {
@@ -71,7 +71,7 @@ assertThat(thing1.name, equalTo("1"));
 }}}
 
 
-A ChainedSequence calculates each element of the sequence from the element that preceded it.
+A `ChainedSequence<T>` calculates each element of the sequence from the element that preceded it.
 
 {{{
 Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new ChainedSequence<String>() {
