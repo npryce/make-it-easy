@@ -1,4 +1,5 @@
 #summary How property values are created
+#labels Featured
 
 Under the hood, A Maker uses "donors" to get the values of the properties of the object it is making. A "donor", is an object that gives a value (or values) to its caller.
 
