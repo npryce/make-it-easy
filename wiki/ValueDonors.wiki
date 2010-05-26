@@ -1,6 +1,6 @@
 #summary How property values are created
 
-Uner the hood, A Maker uses "donors" to get the values of the properties of the object it is making. A "donor", is an object that gives a value (or values) to its caller.
+Under the hood, A Maker uses "donors" to get the values of the properties of the object it is making. A "donor", is an object that gives a value (or values) to its caller.
 
 When we use a `with(property, value)` clause to define the value of a property for a Maker, the second (value) argument can be a donor. That that donor that is called every time the Maker creates a new instance.
 
@@ -85,4 +85,3 @@ NamedThing thing1 = make(aNamedThing);
 assertThat(thing0.name, equalTo("A"));
 assertThat(thing1.name, equalTo("A'"));
 }}}
-
