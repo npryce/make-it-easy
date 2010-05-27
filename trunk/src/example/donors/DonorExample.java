@@ -50,14 +50,14 @@ public class DonorExample {
     
     @Test
     public void allocatingNamesByIndex() {
-        class IndexedNameSequence extends IndexedSequence<String> {
+        class NameSequence extends IndexedSequence<String> {
             @Override
             protected String valueAt(int index) {
                 return Integer.toString(index);
             }
         }
 
-        Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new IndexedNameSequence()));
+        Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new NameSequence()));
 
         NamedThing thing0 = make(aNamedThing);
         NamedThing thing1 = make(aNamedThing);
@@ -68,23 +68,17 @@ public class DonorExample {
 
     @Test
     public void allocatingNamesByChain() {
-        class NameSequence extends ChainedSequence<String> {
-            NameSequence(String firstValue) {
-                super(firstValue);
-            }
-
-            @Override
-            protected String valueAfter(String prevValue) {
-                return prevValue + "'";
-            }
-        }
-
-        Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new NameSequence("A")));
+        Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new ChainedSequence<String>() {
+            protected String firstValue() { return "X"; }
+            protected String valueAfter(String prevValue) { return prevValue + "'"; }
+        }));
 
         NamedThing thing0 = make(aNamedThing);
         NamedThing thing1 = make(aNamedThing);
+        NamedThing thing2 = make(aNamedThing);
 
-        assertThat(thing0.name, equalTo("A"));
-        assertThat(thing1.name, equalTo("A'"));
+        assertThat(thing0.name, equalTo("X"));
+        assertThat(thing1.name, equalTo("X'"));
+        assertThat(thing2.name, equalTo("X''"));
     }
 }
