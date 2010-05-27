@@ -61,4 +61,15 @@ public class MakeItEasy {
             protected SortedSet<T> newCollection() { return new TreeSet<T>(); }
         };
     }
+    
+    public static Donor<String> from(final Iterable<String> values) {
+        return new Donor<String>() {
+            private final Iterator<String> i = values.iterator();
+
+            @Override
+            public String value() {
+                return i.next();
+            }
+        };
+    }
 }
