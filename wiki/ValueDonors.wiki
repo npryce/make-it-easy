@@ -88,4 +88,4 @@ assertThat(thing1.name, equalTo("A'"));
 }}}
 
 
-The full source of these examples is -http://code.google.com/p/make-it-easy/source/browse/trunk/src/example/donors/DonorExample.java in Subversion]
+The full source of these examples is [http://code.google.com/p/make-it-easy/source/browse/trunk/src/example/donors/DonorExample.java in Subversion]
