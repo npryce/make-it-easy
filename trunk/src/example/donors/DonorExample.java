@@ -5,6 +5,8 @@ import com.natpryce.makeiteasy.sequence.ChainedSequence;
 import com.natpryce.makeiteasy.sequence.IndexedSequence;
 import org.junit.Test;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import static com.natpryce.makeiteasy.MakeItEasy.*;
@@ -81,4 +83,26 @@ public class DonorExample {
         assertThat(thing1.name, equalTo("X'"));
         assertThat(thing2.name, equalTo("X''"));
     }
+
+    @Test
+    public void allocatingNamesFromACollection() {
+        SortedSet<String> names = new TreeSet();
+        names.add("Bob");
+        names.add("Alice");
+        names.add("Carol");
+        names.add("Dave");
+
+        Maker<NamedThing> aNamedThing = a(NamedThing, with(name, from(names)));
+
+        NamedThing thing0 = make(aNamedThing);
+        NamedThing thing1 = make(aNamedThing);
+        NamedThing thing2 = make(aNamedThing);
+        NamedThing thing3 = make(aNamedThing);
+
+        assertThat(thing0.name, equalTo("Alice"));
+        assertThat(thing1.name, equalTo("Bob"));
+        assertThat(thing2.name, equalTo("Carol"));
+        assertThat(thing3.name, equalTo("Dave"));
+    }
+
 }
