@@ -104,5 +104,4 @@ public class DonorExample {
         assertThat(thing2.name, equalTo("Carol"));
         assertThat(thing3.name, equalTo("Dave"));
     }
-
 }
