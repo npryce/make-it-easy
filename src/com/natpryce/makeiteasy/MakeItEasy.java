@@ -1,6 +1,10 @@
 package com.natpryce.makeiteasy;
 
+import com.natpryce.makeiteasy.sequence.ElementsSequence;
+
 import java.util.*;
+
+import static java.util.Arrays.asList;
 
 
 /**
@@ -62,14 +66,19 @@ public class MakeItEasy {
         };
     }
     
-    public static Donor<String> from(final Iterable<String> values) {
-        return new Donor<String>() {
-            private final Iterator<String> i = values.iterator();
+    public static <T> Donor<T> from(final Iterable<T> values) {
+        return new ElementsSequence<T>(values, Collections.<T>emptyList());
+    }
 
-            @Override
-            public String value() {
-                return i.next();
-            }
-        };
+    public static <T> Donor<T> from(T ... values) {
+        return from(asList(values));
+    }
+
+    public static <T> Donor<T> fromRepeating(Iterable<T> values) {
+        return new ElementsSequence<T>(values, values);
+    }
+
+    public static <T> Donor<T> fromRepeating(T ... values) {
+        return fromRepeating(asList(values));
     }
 }
