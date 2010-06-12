@@ -48,9 +48,46 @@ Maker<NamedThing> aUniquelyNamedThing = a(NamedThing, with(name, new UUIDValue()
 
 == Sequences ==
 
-Sometimes we want values to be allocated from a sequence, so we can predict their values or understand where data has come from in test diagnostics, but do not want to explicitly calculate that sequence.  Again, Donors can help us do this.
+Sometimes we want values to be allocated from a sequence, so we can predict their values or understand where data has come from in test diagnostics.  Make-it-Easy lets you define a fixed or repeating sequence of values.
 
-Make It Easy provides some abstract base classes to help write donors that generate sequences of values.
+A fixed sequence is defined by the `from` function:
+
+{{{
+Donor<String> names = from("Alice", "Bob", "Carol", "Dave");
+
+assertThat(names.value(), equalTo("Alice"));
+assertThat(names.value(), equalTo("Bob"));
+assertThat(names.value(), equalTo("Carol"));
+assertThat(names.value(), equalTo("Dave"));
+}}}
+
+A fixed sequence of values will fail if asked to provide more elements than are specified when the sequence is created.  A repeating sequence will start back at the beginning of the sequence when all elements are exhausted:
+
+{{{
+Donor<String> names = fromRepeating("A", "B");
+
+assertThat(names.value(), equalTo("A"));
+assertThat(names.value(), equalTo("B"));
+assertThat(names.value(), equalTo("A"));
+assertThat(names.value(), equalTo("B"));
+}}}
+
+Both fixed and repeating sequences can be created from any Iterable collection of values:
+
+{{{
+Donor<String> names = from(new TreeSet(asList(
+        "Bob", "Alice", "Carol", "Dave")));
+        
+assertThat(names.value(), equalTo("Alice"));
+assertThat(names.value(), equalTo("Bob"));
+assertThat(names.value(), equalTo("Carol"));
+assertThat(names.value(), equalTo("Dave"));
+}}}
+
+== Calculated Sequences ==
+
+
+If we do not want to explicitly specify a sequence of values, we can use some convenient base classes to help us calculate each element of the sequence.
 
 An `IndexedSequence<T>` calculates each element of the sequence from its integer index, starting at zero.
 
