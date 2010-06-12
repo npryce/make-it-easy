@@ -53,35 +53,41 @@ Sometimes we want values to be allocated from a sequence, so we can predict thei
 A fixed sequence is defined by the `from` function:
 
 {{{
-Donor<String> names = from("Alice", "Bob", "Carol", "Dave");
+Maker<Customer> aCustomer = a(Customer, with(name, from("Alice", "Bob", "Carol", "Dave")));
 
-assertThat(names.value(), equalTo("Alice"));
-assertThat(names.value(), equalTo("Bob"));
-assertThat(names.value(), equalTo("Carol"));
-assertThat(names.value(), equalTo("Dave"));
+assertThat(make(aCustomer).name(), equalTo("Alice"));
+assertThat(make(aCustomer).name(), equalTo("Bob"));
+assertThat(make(aCustomer).name(), equalTo("Carol"));
+assertThat(make(aCustomer).name(), equalTo("Dave"));
 }}}
 
 A fixed sequence of values will fail if asked to provide more elements than are specified when the sequence is created.  A repeating sequence will start back at the beginning of the sequence when all elements are exhausted:
 
 {{{
-Donor<String> names = fromRepeating("A", "B");
+Maker<Customer> aCustomer = a(Customer, with(name, fromRepeating("Alice", "Bob", "Carol", "Dave")));
 
-assertThat(names.value(), equalTo("A"));
-assertThat(names.value(), equalTo("B"));
-assertThat(names.value(), equalTo("A"));
-assertThat(names.value(), equalTo("B"));
+assertThat(make(aCustomer).name(), equalTo("Alice"));
+assertThat(make(aCustomer).name(), equalTo("Bob"));
+assertThat(make(aCustomer).name(), equalTo("Carol"));
+assertThat(make(aCustomer).name(), equalTo("Dave"));
+assertThat(make(aCustomer).name(), equalTo("Alice"));
 }}}
 
 Both fixed and repeating sequences can be created from any Iterable collection of values:
 
 {{{
-Donor<String> names = from(new TreeSet(asList(
-        "Bob", "Alice", "Carol", "Dave")));
-        
-assertThat(names.value(), equalTo("Alice"));
-assertThat(names.value(), equalTo("Bob"));
-assertThat(names.value(), equalTo("Carol"));
-assertThat(names.value(), equalTo("Dave"));
+SortedSet<String> names = new TreeSet<String>();
+names.add("Bob");
+names.add("Alice");
+names.add("Carol");
+names.add("Dave");
+
+Maker<Customer> aCustomer = a(Customer, with(name, from(names)));
+
+assertThat(make(aCustomer).name(), equalTo("Alice"));
+assertThat(make(aCustomer).name(), equalTo("Bob"));
+assertThat(make(aCustomer).name(), equalTo("Carol"));
+assertThat(make(aCustomer).name(), equalTo("Dave"));
 }}}
 
 == Calculated Sequences ==
@@ -92,37 +98,23 @@ If we do not want to explicitly specify a sequence of values, we can use some co
 An `IndexedSequence<T>` calculates each element of the sequence from its integer index, starting at zero.
 
 {{{
-class NameSequence extends IndexedSequence<String> {
-    @Override
-    protected String valueAt(int index) {
-        return Integer.toString(index);
-    }
-}
+Maker<Customer> aCustomer = a(Customer, with(name, new IndexedSequence<String>() {
+    protected String valueAt(int index) { return "C"+index); }
+}));
 
-Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new NameSequence()));
-
-NamedThing thing0 = make(aNamedThing);
-NamedThing thing1 = make(aNamedThing);
-
-assertThat(thing0.name, equalTo("0"));
-assertThat(thing1.name, equalTo("1"));
+assertThat(make(aCustomer).name(), equalTo("C0"));
+assertThat(make(aCustomer).name(), equalTo("C1"));
 }}}
 
 
 A `ChainedSequence<T>` calculates each element of the sequence from the element that preceded it.
 
 {{{
-Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new ChainedSequence<String>() {
+Maker<Customer> aCustomer = a(Customer, with(name, new ChainedSequence<String>() {
     protected String firstValue() { return "A"; }
     protected String valueAfter(String prevValue) { return prevValue + "'"; }
 }));
 
-NamedThing thing0 = make(aNamedThing);
-NamedThing thing1 = make(aNamedThing);
-
-assertThat(thing0.name, equalTo("A"));
-assertThat(thing1.name, equalTo("A'"));
+assertThat(make(aCustomer).name, equalTo("A"));
+assertThat(make(aCustomer).name, equalTo("A'"));
 }}}
-
-
-The full source of these examples is [http://code.google.com/p/make-it-easy/source/browse/trunk/src/example/donors/DonorExample.java in Subversion]
