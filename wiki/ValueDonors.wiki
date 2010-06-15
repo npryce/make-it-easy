@@ -3,7 +3,7 @@
 
 Under the hood, A Maker uses "donors" to get the values of the properties of the object it is making. A "donor", is an object that gives a value (or values) to its caller.
 
-When we use a `with(property, value)` clause to define the value of a property for a Maker, the second (value) argument can be a donor. That that donor that is called every time the Maker creates a new instance.
+When we use a `with(property, value)` clause to define the value of a property for a Maker, the second (value) argument can be a donor. That donor that is called every time the Maker creates a new instance to provide the property value for that instance.
 
 == Same Value Donor ==
 
