@@ -13,7 +13,7 @@
   <property name="compiler.debug" value="on"/>
   <property name="compiler.generate.no.warnings" value="off"/>
   <property name="compiler.args" value=""/>
-  <property name="compiler.max.memory" value="128m"/>
+  <property name="compiler.max.memory" value="700m"/>
   <patternset id="ignored.files">
     <exclude name="**/CVS/**"/>
     <exclude name="**/SCCS/**"/>
@@ -28,13 +28,21 @@
     <exclude name="**/.git/**"/>
     <exclude name="**/*.hprof/**"/>
     <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
   </patternset>
   <patternset id="library.patterns">
-    <include name="*.zip"/>
     <include name="*.war"/>
-    <include name="*.egg"/>
     <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
     <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
     <include name="*.jar"/>
   </patternset>
   <patternset id="compiler.resources">
@@ -49,6 +57,32 @@
     <include name="**/?*.tld"/>
     <include name="**/?*.ftl"/>
   </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+  <path id="jdk.classpath.1.6">
+    <fileset dir="${jdk.home.1.6}">
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/alt-rt.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
   
   
   <!-- Project Libraries -->
@@ -67,8 +101,11 @@
   <dirname property="module.make-it-easy.basedir" file="${ant.file}"/>
   
   
+  <property name="module.jdk.home.make-it-easy" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.make-it-easy" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.make-it-easy" value="${project.jdk.classpath}"/>
   
-  <property name="compiler.args.make-it-easy" value="${compiler.args}"/>
+  <property name="compiler.args.make-it-easy" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
   
   <property name="make-it-easy.output.dir" value="${module.make-it-easy.basedir}/out/production/make-it-easy"/>
   <property name="make-it-easy.testoutput.dir" value="${module.make-it-easy.basedir}/out/test/make-it-easy"/>
@@ -77,13 +114,25 @@
     <!-- Paths to be included in compilation bootclasspath -->
   </path>
   
+  <path id="make-it-easy.module.production.classpath">
+    <path refid="${module.jdk.classpath.make-it-easy}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
+  <path id="make-it-easy.runtime.production.module.classpath">
+    <pathelement location="${make-it-easy.output.dir}"/>
+    <path refid="library.junit.classpath"/>
+  </path>
+  
   <path id="make-it-easy.module.classpath">
+    <path refid="${module.jdk.classpath.make-it-easy}"/>
+    <pathelement location="${make-it-easy.output.dir}"/>
     <path refid="library.junit.classpath"/>
   </path>
   
   <path id="make-it-easy.runtime.module.classpath">
-    <pathelement location="${make-it-easy.output.dir}"/>
     <pathelement location="${make-it-easy.testoutput.dir}"/>
+    <pathelement location="${make-it-easy.output.dir}"/>
     <path refid="library.junit.classpath"/>
   </path>
   
@@ -98,13 +147,13 @@
   
   <path id="make-it-easy.module.sourcepath">
     <dirset dir="${module.make-it-easy.basedir}">
-      <include name="src"/>
+      <include name="src/main/java"/>
     </dirset>
   </path>
   
   <path id="make-it-easy.module.test.sourcepath">
     <dirset dir="${module.make-it-easy.basedir}">
-      <include name="tests"/>
+      <include name="src/test/java"/>
     </dirset>
   </path>
   
@@ -113,16 +162,16 @@
   
   <target name="compile.module.make-it-easy.production" description="Compile module make-it-easy; production classes">
     <mkdir dir="${make-it-easy.output.dir}"/>
-    <javac destdir="${make-it-easy.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+    <javac destdir="${make-it-easy.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.make-it-easy}/javac">
       <compilerarg line="${compiler.args.make-it-easy}"/>
       <bootclasspath refid="make-it-easy.module.bootclasspath"/>
-      <classpath refid="make-it-easy.module.classpath"/>
+      <classpath refid="make-it-easy.module.production.classpath"/>
       <src refid="make-it-easy.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.make-it-easy"/>
     </javac>
     
     <copy todir="${make-it-easy.output.dir}">
-      <fileset dir="${module.make-it-easy.basedir}/src">
+      <fileset dir="${module.make-it-easy.basedir}/src/main/java">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
@@ -131,19 +180,16 @@
   
   <target name="compile.module.make-it-easy.tests" depends="compile.module.make-it-easy.production" description="compile module make-it-easy; test classes" unless="skip.tests">
     <mkdir dir="${make-it-easy.testoutput.dir}"/>
-    <javac destdir="${make-it-easy.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+    <javac destdir="${make-it-easy.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.make-it-easy}/javac">
       <compilerarg line="${compiler.args.make-it-easy}"/>
+      <bootclasspath refid="make-it-easy.module.bootclasspath"/>
       <classpath refid="make-it-easy.module.classpath"/>
-      <classpath>
-        <path refid="make-it-easy.module.classpath"/>
-        <pathelement location="${make-it-easy.output.dir}"/>
-      </classpath>
       <src refid="make-it-easy.module.test.sourcepath"/>
       <patternset refid="excluded.from.compilation.make-it-easy"/>
     </javac>
     
     <copy todir="${make-it-easy.testoutput.dir}">
-      <fileset dir="${module.make-it-easy.basedir}/tests">
+      <fileset dir="${module.make-it-easy.basedir}/src/test/java">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>

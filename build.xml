@@ -1,5 +1,5 @@
 <project name="make-it-easy-build" default="dist">
-    <import file="make-it-easy.xml"/>
+    <include file="make-it-easy.xml"/>
     
     <property name="version" value="SNAPSHOT"/>
     <property name="product" value="make-it-easy-${version}"/>
@@ -16,10 +16,10 @@
         <junit haltonfailure="true" fork="true" printsummary="true">
             <classpath>
                 <fileset dir="${dist.dir}" includes="*.jar" excludes="*-src.jar"/>
-                <path refid="make-it-easy.module.classpath"/>
+                <path refid="make-it-easy.runtime.module.classpath"/>
             </classpath>
             <batchtest>
-                <fileset dir="${basedir}/tests" includes="**/*Test.java" excludes="**/Abstract*.java"/>
+                <fileset dir="${basedir}/src/test/java" includes="**/*Test.java" excludes="**/Abstract*.java"/>
             </batchtest>
         </junit>
     </target>
@@ -38,7 +38,7 @@
 
     <target name="javadoc">
         <javadoc destdir="${dist.dir}/doc">
-            <packageset dir="src" includes="com/natpryce/**" excludes="**/internal/**"/>
+            <packageset dir="src/main/java" includes="com/natpryce/**" excludes="**/internal/**"/>
         </javadoc>
     </target>
     
