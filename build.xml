@@ -1,5 +1,5 @@
 <project name="make-it-easy-build" default="dist">
-    <include file="make-it-easy.xml"/>
+    <import file="make-it-easy.xml"/>
     
     <property name="version" value="SNAPSHOT"/>
     <property name="product" value="make-it-easy-${version}"/>
