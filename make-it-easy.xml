@@ -93,6 +93,10 @@
     </fileset>
   </path>
   
+  <path id="library.pcollections.classpath">
+    <pathelement location="${basedir}/lib/pcollections-2.1.2.jar"/>
+  </path>
+  
   <!-- Modules -->
   
   
@@ -117,23 +121,27 @@
   <path id="make-it-easy.module.production.classpath">
     <path refid="${module.jdk.classpath.make-it-easy}"/>
     <path refid="library.junit.classpath"/>
+    <path refid="library.pcollections.classpath"/>
   </path>
   
   <path id="make-it-easy.runtime.production.module.classpath">
     <pathelement location="${make-it-easy.output.dir}"/>
     <path refid="library.junit.classpath"/>
+    <path refid="library.pcollections.classpath"/>
   </path>
   
   <path id="make-it-easy.module.classpath">
     <path refid="${module.jdk.classpath.make-it-easy}"/>
     <pathelement location="${make-it-easy.output.dir}"/>
     <path refid="library.junit.classpath"/>
+    <path refid="library.pcollections.classpath"/>
   </path>
   
   <path id="make-it-easy.runtime.module.classpath">
     <pathelement location="${make-it-easy.testoutput.dir}"/>
     <pathelement location="${make-it-easy.output.dir}"/>
     <path refid="library.junit.classpath"/>
+    <path refid="library.pcollections.classpath"/>
   </path>
   
   

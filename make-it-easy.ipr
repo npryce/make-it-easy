@@ -299,5 +299,15 @@
       <SOURCES />
       <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
     </library>
+    <library name="pcollections" type="repository">
+      <properties maven-id="org.pcollections:pcollections:2.1.2" />
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/pcollections-2.1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/pcollections-2.1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
   </component>
 </project>
