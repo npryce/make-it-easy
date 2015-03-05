@@ -1,6 +1,7 @@
 package com.natpryce.makeiteasy.tests;
 
 import com.natpryce.makeiteasy.Instantiator;
+import com.natpryce.makeiteasy.Maker;
 import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.PropertyLookup;
 import org.junit.Test;
@@ -74,5 +75,20 @@ public class MakeItEasyTest {
         ThingContainer container = make(a(ThingContainer, with(thing, a(ThingToMake, with(name, "foo")))));
 
         assertThat(container.thing.name, equalTo("foo"));
+    }
+
+    @Test
+    public void sharingDefinitionsAvoidsAliasingErrors() {
+        Maker<ThingToMake> x99Maker = a(ThingToMake, with(name, "x"), with(age, 99));
+        Maker<ThingToMake> x77Maker = x99Maker.but(with(age, 77));
+
+        ThingToMake x99 = x99Maker.make();
+        ThingToMake x77 = x77Maker.make();
+
+        assertThat("x99.name", x99.name, equalTo("x"));
+        assertThat("x77.name", x77.name, equalTo("x"));
+
+        assertThat("x99.age", x99.age, equalTo(99));
+        assertThat("x77.age", x77.age, equalTo(77));
     }
 }
