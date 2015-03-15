@@ -6,7 +6,6 @@ archivesBaseName = project.name
 group = "com.natpryce"
 version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
 
-sourceCompatibility = "1.7"
 
 repositories {
     mavenCentral()
