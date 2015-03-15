@@ -1,5 +1,7 @@
 A tiny framework that makes it easy to write Test Data Builders in Java
 
+[![Build Status](https://travis-ci.org/npryce/make-it-easy.svg?branch=master)](https://travis-ci.org/npryce/make-it-easy)
+
 Test Data Builders are described in the book [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com) by [Steve Freeman](http://www.m3p.co.uk) and [Nat Pryce](http://www.natpryce.com).  This library lets you write Test Data Builders with much less duplication and boilerplate code than the approach described in the book.
 
 ## Example ##
