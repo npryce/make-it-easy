@@ -1,7 +1,7 @@
 package com.natpryce.makeiteasy;
 
 /**
- * The value of a property.
+ * The value of a Property, which is acquired from a Donor
  *
  * @param <T> the type of object that has the property
  * @param <V> the type of the value of the property
