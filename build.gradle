@@ -6,6 +6,9 @@ archivesBaseName = project.name
 group = "com.natpryce"
 version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
 
 repositories {
     mavenCentral()
