@@ -34,13 +34,13 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc
-}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc
+//}
 
 artifacts {
-    archives jar, sourcesJar, javadocJar
+    archives jar, sourcesJar //, javadocJar
 }
 
 signing {
@@ -65,7 +65,7 @@ uploadArchives {
         pom.project {
             name archivesBaseName
             packaging 'jar'
-            description ''
+            description 'A tiny framework that makes it easy to write Test Data Builders in Java'
             url 'https://github.com/npryce/make-it-easy'
 
             scm {
