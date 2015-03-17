@@ -5,21 +5,22 @@ import java.util.Collection;
 import static java.util.Arrays.asList;
 
 public abstract class NewCollectionDonor<T extends Collection<E>, E> implements Donor<T> {
-    private final Iterable<? extends Donor<? extends E>> elementGivers;
+    private final Iterable<? extends Donor<? extends E>> elementDonors;
 
+    @SafeVarargs
     public NewCollectionDonor(Donor<? extends E>... elementDonors) {
         this(asList(elementDonors));
     }
 
-    public NewCollectionDonor(Iterable<? extends Donor<? extends E>> elementGivers) {
-        this.elementGivers = elementGivers;
+    public NewCollectionDonor(Iterable<? extends Donor<? extends E>> elementDonors) {
+        this.elementDonors = elementDonors;
     }
 
     @Override
     public T value() {
         T newCollection = newCollection();
-        for (Donor<? extends E> elementMaker : elementGivers) {
-            newCollection.add(elementMaker.value());
+        for (Donor<? extends E> elementDonor : elementDonors) {
+            newCollection.add(elementDonor.value());
         }
         return newCollection;
     }

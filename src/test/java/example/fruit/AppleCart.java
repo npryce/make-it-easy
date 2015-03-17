@@ -10,7 +10,7 @@ import java.util.Set;
  * @see example.fruit.makeiteasy.AppleCartMaker
  */
 public class AppleCart {
-    private final Set<Apple> apples = new HashSet<Apple>();
+    private final Set<Apple> apples = new HashSet<>();
 
     public AppleCart(Iterable<Apple> apples) {
         for (Apple apple : apples) {

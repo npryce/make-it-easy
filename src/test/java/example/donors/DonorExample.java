@@ -86,7 +86,7 @@ public class DonorExample {
 
     @Test
     public void allocatingNamesFromACollection() {
-        SortedSet<String> names = new TreeSet();
+        SortedSet<String> names = new TreeSet<>();
         names.add("Bob");
         names.add("Alice");
         names.add("Carol");

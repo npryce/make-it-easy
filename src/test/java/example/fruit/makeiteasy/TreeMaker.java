@@ -26,6 +26,7 @@ import java.util.List;
  * instantiators for a specific instantiation of the generic type, as shown by the AppleTree
  * and BananaTree instantiators below.
  */
+@SuppressWarnings("UnusedDeclaration")
 public class TreeMaker {
     /* We must have a single instance of the fruit property for equals & hashCode to work properly...
      */
@@ -35,6 +36,7 @@ public class TreeMaker {
      * generic method that forces the property to have the required static type
      */
     public static <F extends Fruit> Property<Tree<F>, Iterable<? extends F>> fruit() {
+        //noinspection unchecked
         return (Property<Tree<F>, Iterable<? extends F>>)fruit;
     }
     
@@ -45,7 +47,7 @@ public class TreeMaker {
                 Property<Tree<F>, Iterable<? extends F>> fruit = fruit();
                 List<F> noFruit = emptyList();
 
-                return new Tree<F>(lookup.valueOf(fruit, noFruit));
+                return new Tree<>(lookup.valueOf(fruit, noFruit));
             }
         };
     }

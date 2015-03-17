@@ -27,7 +27,7 @@ public class MakeItEasyTest {
     public static final Property<ThingToMake, String> name = newProperty();
     public static final Property<ThingToMake, Integer> age = newProperty();
 
-    public static Instantiator<ThingToMake> ThingToMake = new Instantiator<ThingToMake>() {
+    public static final Instantiator<ThingToMake> ThingToMake = new Instantiator<ThingToMake>() {
         @Override
         public ThingToMake instantiate(PropertyLookup<ThingToMake> lookup) {
             return new ThingToMake(lookup.valueOf(name, "Nemo"), lookup.valueOf(age, 99));
@@ -61,9 +61,9 @@ public class MakeItEasyTest {
         }
     }
 
-    public static Property<ThingContainer, ThingToMake> thing = newProperty();
+    public static final Property<ThingContainer, ThingToMake> thing = newProperty();
 
-    public static Instantiator<ThingContainer> ThingContainer = new Instantiator<ThingContainer>() {
+    public static final Instantiator<ThingContainer> ThingContainer = new Instantiator<ThingContainer>() {
         @Override
         public ThingContainer instantiate(PropertyLookup<ThingContainer> lookup) {
             return new ThingContainer(lookup.valueOf(thing, make(a(ThingToMake))));

@@ -25,7 +25,7 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
     }
     
     private static <K,V> Map<K,V> newHashMap() {
-        return new HashMap<K,V>();
+        return new HashMap<>();
     }
     
     private Maker(Maker<T> that, PropertyValue<? super T, ?>... propertyValues) {
@@ -66,17 +66,18 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
      * @return a new Maker
      */
     public Maker<T> but(PropertyValue<? super T, ?>... propertyValues) {
-        return new Maker<T>(this, propertyValues);
+        return new Maker<>(this, propertyValues);
     }
     
     @Override
     public <V> V valueOf(Property<? super T, V> property, V defaultValue) {
-        return valueOf(property, new SameValueDonor<V>(defaultValue));
+        return valueOf(property, new SameValueDonor<>(defaultValue));
     }
     
     @Override
     public <V> V valueOf(Property<? super T, V> property, Donor<? extends V> defaultValue) {
         if (values.containsKey(property)) {
+            //noinspection unchecked
             return (V) values.get(property).value();
         }
         else {

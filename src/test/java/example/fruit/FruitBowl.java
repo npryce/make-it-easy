@@ -10,7 +10,7 @@ import java.util.Stack;
  * @see {@link example.fruit.makeiteasy.FruitBowlMaker}
  */
 public class FruitBowl {
-    private final Stack<Fruit> contents = new Stack<Fruit>();
+    private final Stack<Fruit> contents = new Stack<>();
 
     public FruitBowl(Iterable<? extends Fruit> contents) {
         for (Fruit fruit : contents) {

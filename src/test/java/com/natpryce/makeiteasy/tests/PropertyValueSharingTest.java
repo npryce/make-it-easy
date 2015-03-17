@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.sameInstance;
 // See Issue 2.
 public class PropertyValueSharingTest {
     public class Identity {
-        public String name;
+        public final String name;
 
         public Identity(String name) {
             this.name = name;
@@ -38,18 +38,18 @@ public class PropertyValueSharingTest {
         }
     }
 
-    public Property<Identity, String> name = newProperty();
+    public final Property<Identity, String> name = newProperty();
 
-    public Instantiator<Identity> Identity = new Instantiator<Identity>() {
+    public final Instantiator<Identity> Identity = new Instantiator<Identity>() {
         @Override
         public Identity instantiate(PropertyLookup<Identity> lookup) {
             return new Identity(lookup.valueOf(name, "default-name"));
         }
     };
 
-    public Property<Identified, Identity> identity = newProperty();
+    public final Property<Identified, Identity> identity = newProperty();
 
-    public Instantiator<Identified> Identified = new Instantiator<Identified>() {
+    public final Instantiator<Identified> Identified = new Instantiator<Identified>() {
         @Override
         public Identified instantiate(PropertyLookup<Identified> lookup) {
             return new Identified(lookup.valueOf(identity, new Identity("default-identity")));
@@ -86,7 +86,7 @@ public class PropertyValueSharingTest {
         }
     }
 
-    public Instantiator<SecretAgent> SecretAgent = new Instantiator<SecretAgent>() {
+    public final Instantiator<SecretAgent> SecretAgent = new Instantiator<SecretAgent>() {
         @Override
         public SecretAgent instantiate(PropertyLookup<SecretAgent> lookup) {
             return new SecretAgent(
@@ -95,7 +95,7 @@ public class PropertyValueSharingTest {
         }
     };
 
-    public Property<SecretAgent, List<Identity>> assumedIdentities = newProperty();
+    public final Property<SecretAgent, List<Identity>> assumedIdentities = newProperty();
 
     @Test
     public void distinctCollectionElementsAreUsedForEachMadeObjectWhenElementsAreDefinedWithAMaker() {

@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 
 public class Tree<T extends Fruit> implements Iterable<T> {
-    private final Set<T> fruit = new HashSet<T>();
+    private final Set<T> fruit = new HashSet<>();
 
     public Tree(Iterable<? extends T> fruit) {
         for (T f : fruit) {

@@ -3,7 +3,6 @@ package com.natpryce.makeiteasy.tests;
 import com.natpryce.makeiteasy.Donor;
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
 import java.util.TreeSet;
 
 import static com.natpryce.makeiteasy.MakeItEasy.from;
@@ -11,13 +10,11 @@ import static com.natpryce.makeiteasy.MakeItEasy.fromRepeating;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.fail;
 
 public class SequenceTests {
     @Test
     public void sequenceFromCollection() {
-        Donor<String> names = from(new TreeSet(asList(
-                "Bob", "Alice", "Carol", "Dave")));
+        Donor<String> names = from(new TreeSet<>(asList("Bob", "Alice", "Carol", "Dave")));
         
         assertThat(names.value(), equalTo("Alice"));
         assertThat(names.value(), equalTo("Bob"));
@@ -25,18 +22,14 @@ public class SequenceTests {
         assertThat(names.value(), equalTo("Dave"));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void sequenceFailsIfNoMoreElementsInCollection() {
         Donor<String> names = from(asList("A", "B"));
 
         assertThat(names.value(), equalTo("A"));
         assertThat(names.value(), equalTo("B"));
 
-        try {
-            names.value();
-            fail("should have thrown IllegalStateException");
-        }
-        catch (NoSuchElementException expected) { }
+        names.value();
     }
 
     @Test
