@@ -4,6 +4,12 @@ A tiny framework that makes it easy to write Test Data Builders in Java
 
 Test Data Builders are described in the book [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com) by [Steve Freeman](http://www.m3p.co.uk) and [Nat Pryce](http://www.natpryce.com).  This library lets you write Test Data Builders with much less duplication and boilerplate code than the approach described in the book.
 
+## Download ##
+
+You can download from Maven Central with the artifact coordinates:
+
+    com.natpryce:make-it-easy:3.1.6
+
 ## Example ##
 
 Consider the following class hierarchy. This hierarchy illustrates a couple of complicating factors: there is an abstract base class and there is a property (Fruit.ripeness) that is not set via the constructor but by an operation of the Fruit class.
