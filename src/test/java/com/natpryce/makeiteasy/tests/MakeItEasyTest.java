@@ -8,9 +8,9 @@ import org.junit.Test;
 
 import static com.natpryce.makeiteasy.MakeItEasy.*;
 import static com.natpryce.makeiteasy.Property.newProperty;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class MakeItEasyTest {
     public static class ThingToMake {

@@ -9,8 +9,8 @@ import java.util.TreeSet;
 import static com.natpryce.makeiteasy.MakeItEasy.from;
 import static com.natpryce.makeiteasy.MakeItEasy.fromRepeating;
 import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class SequenceTests {
     @Test

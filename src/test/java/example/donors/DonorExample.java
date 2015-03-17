@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import static com.natpryce.makeiteasy.MakeItEasy.*;
 import static com.natpryce.makeiteasy.Property.newProperty;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
