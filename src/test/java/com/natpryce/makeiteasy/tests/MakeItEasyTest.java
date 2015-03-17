@@ -6,12 +6,11 @@ import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.PropertyLookup;
 import org.junit.Test;
 
-import static com.natpryce.makeiteasy.MakeItEasy.a;
-import static com.natpryce.makeiteasy.MakeItEasy.make;
-import static com.natpryce.makeiteasy.MakeItEasy.with;
+import static com.natpryce.makeiteasy.MakeItEasy.*;
 import static com.natpryce.makeiteasy.Property.newProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 
 public class MakeItEasyTest {
     public static class ThingToMake {
@@ -52,6 +51,14 @@ public class MakeItEasyTest {
         ThingToMake differentName = make(a(ThingToMake, with(name, "Bill")));
         assertThat(differentName.name, equalTo("Bill"));
     }
+
+    @Test
+    public void canSpecifyNullPropertyValue() {
+        ThingToMake madeThing = make(a(ThingToMake, withNull(name)));
+
+        assertThat(madeThing.name, nullValue());
+    }
+
 
     public static class ThingContainer {
         public final ThingToMake thing;

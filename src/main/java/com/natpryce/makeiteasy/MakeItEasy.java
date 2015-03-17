@@ -36,6 +36,10 @@ public class MakeItEasy {
         return new PropertyValue<>(property, valueDonor);
     }
 
+    public static <T,V> PropertyValue<T,V> withNull(Property<T,V> property) {
+        return new PropertyValue<>(property, new SameValueDonor<V>(null));
+    }
+
     public static <T> Donor<T> theSame(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return theSame(an(instantiator, propertyProviders));
     }
