@@ -8,7 +8,7 @@ Test Data Builders are described in the book [Growing Object-Oriented Software, 
 
 You can download from Maven Central with the artifact coordinates:
 
-    com.natpryce:make-it-easy:3.1.6
+    com.natpryce:make-it-easy:4.0.0
 
 ## Example ##
 
