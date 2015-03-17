@@ -3,6 +3,7 @@ package com.natpryce.makeiteasy.tests;
 import com.natpryce.makeiteasy.Donor;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
 import java.util.TreeSet;
 
 import static com.natpryce.makeiteasy.MakeItEasy.from;
@@ -22,7 +23,7 @@ public class SequenceTests {
         assertThat(names.value(), equalTo("Dave"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = NoSuchElementException.class)
     public void sequenceFailsIfNoMoreElementsInCollection() {
         Donor<String> names = from(asList("A", "B"));
 
