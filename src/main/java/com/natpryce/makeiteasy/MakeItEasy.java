@@ -10,7 +10,6 @@ import static java.util.Arrays.asList;
 /**
  * Syntactic sugar for using Make It Easy test-data builders.
  */
-@SuppressWarnings("unused")
 public class MakeItEasy {
     public static <T> Maker<T> a(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return new Maker<>(instantiator, propertyProviders);

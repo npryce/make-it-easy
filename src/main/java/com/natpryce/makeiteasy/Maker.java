@@ -1,7 +1,8 @@
 package com.natpryce.makeiteasy;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import org.pcollections.HashTreePMap;
+import org.pcollections.PMap;
 
 
 /**
@@ -10,7 +11,7 @@ import java.util.Map;
  * @param <T> the type of object to make
  */
 public class Maker<T> implements PropertyLookup<T>, Donor<T> {
-    private final Map<Property<? super T, ?>, PropertyValue<? super T, ?>> values = newHashMap();
+    private final PMap<Property<? super T, ?>, PropertyValue<? super T, ?>> values;
     private final Instantiator<T> instantiator;
 
     /**
@@ -21,23 +22,22 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
      */
     public Maker(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyValues) {
         this.instantiator = instantiator;
-        setPropertyValues(propertyValues);
-    }
-    
-    private static <K,V> Map<K,V> newHashMap() {
-        return new HashMap<>();
-    }
-    
-    private Maker(Maker<T> that, PropertyValue<? super T, ?>... propertyValues) {
-        this.instantiator = that.instantiator;
-        this.values.putAll(that.values);
-        setPropertyValues(propertyValues);
+        this.values = byProperty(propertyValues);
     }
 
-    private void setPropertyValues(PropertyValue<? super T, ?>[] propertyValues) {
+    private Maker(Maker<T> that, PropertyValue<? super T, ?>... propertyValues) {
+        this.instantiator = that.instantiator;
+        this.values = that.values.plusAll(byProperty(propertyValues));
+    }
+
+    private static <T> PMap<Property<? super T, ?>, PropertyValue<? super T, ?>> byProperty(PropertyValue<? super T, ?>[] propertyValues) {
+        PMap<Property<? super T, ?>, PropertyValue<? super T, ?>> propertyMap = HashTreePMap.empty();
+
         for (PropertyValue<? super T, ?> propertyValue : propertyValues) {
-            values.put(propertyValue.property(), propertyValue);
+            propertyMap = propertyMap.plus(propertyValue.property(), propertyValue);
         }
+
+        return propertyMap;
     }
 
     /**

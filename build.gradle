@@ -15,9 +15,12 @@ repositories {
 }
 
 dependencies {
-    testCompile "junit:junit:4.12"
+    testCompile ("junit:junit:4.12") {
+        exclude group: "org.hamcrest"
+    }
     testCompile "org.hamcrest:java-hamcrest:2.0.0.0"
     testCompile "org.hamcrest:hamcrest-junit:2.0.0.0"
+    compile "org.pcollections:pcollections:2.1.2"
 }
 
 
