@@ -15,7 +15,7 @@ You can download from Maven Central with the artifact coordinates:
 Consider the following class hierarchy. This hierarchy illustrates a couple of complicating factors: there is an abstract base class and there is a property (Fruit.ripeness) that is not set via the constructor but by an operation of the Fruit class.
 
 
-```
+```java
 public abstract class Fruit {
     private double ripeness = 0.0;
 
@@ -55,7 +55,7 @@ public class Banana extends Fruit {
 
 You can define Test Data Builders for Apples and Bananas with Make It Easy as follows:
 
-```
+```java
 public class FruitMakers {
     public static final Property<Fruit,Double> ripeness = newProperty();
 
@@ -83,14 +83,14 @@ public class FruitMakers {
 
 And use them like this:
 
-```
+```java
 Maker<Apple> appleWith2Leaves = an(Apple, with(2, leaves));
 Maker<Apple> ripeApple = appleWith2Leaves.but(with(ripeness, 0.9));
 Maker<Apple> unripeApple = appleWith2Leaves.but(with(ripeness, 0.125));
-        
+
 Apple apple1 = make(ripeApple);
 Apple apple2 = make(unripeApple);
-        
+
 Banana defaultBanana = make(a(Banana));
 Banana straightBanana = make(a(Banana, with(curve, 0.0)));
 Banana squishyBanana = make(a(Banana, with(ripeness, 1.0)));
@@ -98,7 +98,7 @@ Banana squishyBanana = make(a(Banana, with(ripeness, 1.0)));
 
 In contrast, doing so in the style documented in _Growing Object-Oriented Software, Guided by Tests_ would look like this:
 
-```
+```java
 public interface Builder<T> {
     T build();
 }
@@ -161,7 +161,7 @@ public class BananaBuilder implements Builder<Banana> {
         this.curve = curve;
         return this;
     }
-    
+
     public BananaBuilder but() {
         return new BananaBuilder()
                 .withRipeness(ripeness)
@@ -172,11 +172,11 @@ public class BananaBuilder implements Builder<Banana> {
 
 And be used like this:
 
-```
+```java
 AppleBuilder appleWith2Leaves = anApple().withLeaves(2);
 AppleBuilder ripeApple = appleWith2Leaves.but().withRipeness(0.9);
 AppleBuilder unripeApple = appleWith2Leaves.but().withRipeness(0.125);
-        
+
 Apple apple1 = ripeApple.build();
 Apple apple2 = unripeApple.build();
 
