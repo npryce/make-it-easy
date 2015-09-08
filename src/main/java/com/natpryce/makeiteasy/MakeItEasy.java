@@ -11,10 +11,12 @@ import static java.util.Arrays.asList;
  * Syntactic sugar for using Make It Easy test-data builders.
  */
 public class MakeItEasy {
+    @SafeVarargs
     public static <T> Maker<T> a(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return new Maker<>(instantiator, propertyProviders);
     }
-    
+
+    @SafeVarargs
     public static <T> Maker<T> an(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return new Maker<>(instantiator, propertyProviders);
     }
@@ -39,6 +41,7 @@ public class MakeItEasy {
         return new PropertyValue<>(property, new SameValueDonor<V>(null));
     }
 
+    @SafeVarargs
     public static <T> Donor<T> theSame(Instantiator<T> instantiator, PropertyValue<? super T, ?> ... propertyProviders) {
         return theSame(an(instantiator, propertyProviders));
     }
