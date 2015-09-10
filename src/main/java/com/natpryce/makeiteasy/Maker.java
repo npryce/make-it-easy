@@ -20,11 +20,13 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
      * @param instantiator creates the new objects
      * @param propertyValues define the initial state of the new objects
      */
+    @SafeVarargs
     public Maker(Instantiator<T> instantiator, PropertyValue<? super T, ?>... propertyValues) {
         this.instantiator = instantiator;
         this.values = byProperty(propertyValues);
     }
 
+    @SafeVarargs
     private Maker(Maker<T> that, PropertyValue<? super T, ?>... propertyValues) {
         this.instantiator = that.instantiator;
         this.values = that.values.plusAll(byProperty(propertyValues));
@@ -65,7 +67,8 @@ public class Maker<T> implements PropertyLookup<T>, Donor<T> {
      * @param propertyValues those initial properties of the new Make that will differ from this Maker
      * @return a new Maker
      */
-    public Maker<T> but(PropertyValue<? super T, ?>... propertyValues) {
+    @SafeVarargs
+    public final Maker<T> but(PropertyValue<? super T, ?>... propertyValues) {
         return new Maker<>(this, propertyValues);
     }
     
