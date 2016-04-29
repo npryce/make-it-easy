@@ -8,6 +8,6 @@ public abstract class Fruit {
     }
 
     public boolean isRipe() {
-        return ripeness == 1.0;
+        return Double.compare(ripeness, 1.0) == 0;
     }
 }
