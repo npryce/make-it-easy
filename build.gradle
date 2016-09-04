@@ -53,19 +53,20 @@ signing {
     sign configurations.archives
 }
 
-String publishUsername = hasProperty("ossrhUsername") ? property("ossrhUsername") : ""
-String publishPassword = hasProperty("ossrhPassword") ? property("ossrhPassword") : ""
 
 uploadArchives {
     repositories.mavenDeployer {
         beforeDeployment { deployment -> signing.signPom(deployment) }
 
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: publishUsername, password: publishPassword)
-        }
-        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-            authentication(userName: publishUsername, password: publishPassword)
-        }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: project.properties["ossrh.username"],
+                        password: project.properties["ossrh.password"])
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: project.properties["ossrh.username"],
+                        password: project.properties["ossrh.password"])
+            }
 
         pom.project {
             name archivesBaseName
