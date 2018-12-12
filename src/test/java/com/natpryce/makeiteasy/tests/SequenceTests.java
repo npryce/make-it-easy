@@ -16,7 +16,7 @@ public class SequenceTests {
     @Test
     public void sequenceFromCollection() {
         Donor<String> names = from(new TreeSet<>(asList("Bob", "Alice", "Carol", "Dave")));
-        
+
         assertThat(names.value(), equalTo("Alice"));
         assertThat(names.value(), equalTo("Bob"));
         assertThat(names.value(), equalTo("Carol"));

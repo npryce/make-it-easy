@@ -2,6 +2,8 @@ package example.fruit.makeiteasy;
 
 import com.natpryce.makeiteasy.Maker;
 import example.fruit.*;
+import example.fruit.makeiteasy.immutable.Apple;
+import example.fruit.makeiteasy.immutable.Banana;
 
 import static com.natpryce.makeiteasy.MakeItEasy.*;
 import static example.fruit.makeiteasy.AppleCartMaker.AppleCart;
@@ -14,16 +16,16 @@ import static example.fruit.makeiteasy.TreeMaker.bananas;
 
 
 @SuppressWarnings({"UnusedDeclaration"})
-public class MakeItEasyExample {
+class MakeItEasyExample {
     public static void howToMakeSimpleObjects() {
-        Maker<Apple> appleWith2Leaves = an(Apple, with(2, leaves));
+        Maker<example.fruit.makeiteasy.immutable.Apple> appleWith2Leaves = an(Apple, with(2, leaves));
         Maker<Apple> ripeApple = appleWith2Leaves.but(with(ripeness, 0.9));
         Maker<Apple> unripeApple = appleWith2Leaves.but(with(ripeness, 0.125));
 
         Apple apple1 = make(ripeApple);
         Apple apple2 = make(unripeApple);
 
-        Banana defaultBanana = make(a(Banana));
+        example.fruit.makeiteasy.immutable.Banana defaultBanana = make(a(Banana));
         Banana straightBanana = make(a(Banana, with(curve, 0.0)));
         Banana squishyBanana = make(a(Banana, with(ripeness, 1.0)));
     }

@@ -3,7 +3,6 @@ package com.natpryce.makeiteasy.tests;
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Maker;
 import com.natpryce.makeiteasy.Property;
-import com.natpryce.makeiteasy.PropertyLookup;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -17,44 +16,14 @@ import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 // See Issue 2.
 public class PropertyValueSharingTest {
-    public class Identity {
-        public final String name;
-
-        public Identity(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "Identity[" + System.identityHashCode(this) + ": " + name + "]";
-        }
-    }
-
-    public class Identified {
-        public final Identity identity;
-
-        public Identified(Identity identity) {
-            this.identity = identity;
-        }
-    }
-
-    public final Property<Identity, String> name = newProperty();
-
-    public final Instantiator<Identity> Identity = new Instantiator<Identity>() {
-        @Override
-        public Identity instantiate(PropertyLookup<Identity> lookup) {
-            return new Identity(lookup.valueOf(name, "default-name"));
-        }
-    };
-
-    public final Property<Identified, Identity> identity = newProperty();
-
-    public final Instantiator<Identified> Identified = new Instantiator<Identified>() {
-        @Override
-        public Identified instantiate(PropertyLookup<Identified> lookup) {
-            return new Identified(lookup.valueOf(identity, new Identity("default-identity")));
-        }
-    };
+    private final Property<Identity, String> name = newProperty();
+    private final Instantiator<Identity> Identity = lookup -> new Identity(lookup.valueOf(name, "default-name"));
+    private final Property<Identified, Identity> identity = newProperty();
+    private final Instantiator<Identified> Identified = lookup -> new Identified(lookup.valueOf(identity, new Identity("default-identity")));
+    private final Property<SecretAgent, List<Identity>> assumedIdentities = newProperty();
+    private final Instantiator<SecretAgent> SecretAgent = lookup -> new SecretAgent(
+            lookup.valueOf(assumedIdentities,
+                    Collections.<Identity>emptyList()));
 
     @Test
     public void aDistinctPropertyValueInstanceIsUsedForEachMadeObjectWhenPropertyIsDefinedWithAMaker() {
@@ -77,25 +46,6 @@ public class PropertyValueSharingTest {
 
         assertThat(x.identity, sameInstance(y.identity));
     }
-
-    public class SecretAgent {
-        public final List<Identity> assumedIdentities;
-
-        public SecretAgent(List<Identity> assumedIdentities) {
-            this.assumedIdentities = assumedIdentities;
-        }
-    }
-
-    public final Instantiator<SecretAgent> SecretAgent = new Instantiator<SecretAgent>() {
-        @Override
-        public SecretAgent instantiate(PropertyLookup<SecretAgent> lookup) {
-            return new SecretAgent(
-                    lookup.valueOf(assumedIdentities,
-                                   Collections.<Identity>emptyList()));
-        }
-    };
-
-    public final Property<SecretAgent, List<Identity>> assumedIdentities = newProperty();
 
     @Test
     public void distinctCollectionElementsAreUsedForEachMadeObjectWhenElementsAreDefinedWithAMaker() {
@@ -138,5 +88,34 @@ public class PropertyValueSharingTest {
         SecretAgent y = make(anAgent);
 
         assertThat(x.assumedIdentities, sameInstance(y.assumedIdentities));
+    }
+
+    class Identity {
+        final String name;
+
+        Identity(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "Identity[" + System.identityHashCode(this) + ": " + name + "]";
+        }
+    }
+
+    class Identified {
+        final Identity identity;
+
+        Identified(Identity identity) {
+            this.identity = identity;
+        }
+    }
+
+    class SecretAgent {
+        final List<Identity> assumedIdentities;
+
+        SecretAgent(List<Identity> assumedIdentities) {
+            this.assumedIdentities = assumedIdentities;
+        }
     }
 }

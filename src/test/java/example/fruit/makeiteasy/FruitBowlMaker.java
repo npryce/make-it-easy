@@ -2,7 +2,6 @@ package example.fruit.makeiteasy;
 
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Property;
-import com.natpryce.makeiteasy.PropertyLookup;
 import example.fruit.Fruit;
 import example.fruit.FruitBowl;
 
@@ -15,14 +14,9 @@ import static example.fruit.makeiteasy.FruitMakers.Banana;
 /**
  * An example of how to define builders for properties that are collections.
  */
-public class FruitBowlMaker {
-    public static final Property<FruitBowl, Iterable<? extends Fruit>> contents = newProperty();
+class FruitBowlMaker {
 
-    public static final Instantiator<FruitBowl> FruitBowl = new Instantiator<FruitBowl>() {
-        @Override
-        public FruitBowl instantiate(PropertyLookup<FruitBowl> lookup) {
-            return new FruitBowl(
-                    lookup.valueOf(contents, listOf(an(Apple), a(Banana)).value()));
-        }
-    };
+    static final Property<FruitBowl, Iterable<? extends Fruit>> contents = newProperty();
+    static final Instantiator<FruitBowl> FruitBowl = lookup -> new FruitBowl(
+            lookup.valueOf(contents, listOf(an(Apple), a(Banana)).value()));
 }

@@ -17,7 +17,7 @@ public abstract class ChainedSequence<T> implements Donor<T> {
         prevValue = result;
         return result;
     }
-    
+
     /**
      * Returns the first value in the sequence.
      * The result must not be null.

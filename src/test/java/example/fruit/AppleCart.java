@@ -1,5 +1,7 @@
 package example.fruit;
 
+import example.fruit.makeiteasy.immutable.Apple;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,10 +20,12 @@ public class AppleCart {
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public int currentLoad() {
         return apples.size();
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public void upset() {
         apples.clear();
     }

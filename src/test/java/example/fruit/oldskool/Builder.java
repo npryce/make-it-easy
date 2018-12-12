@@ -1,5 +1,6 @@
 package example.fruit.oldskool;
 
-public interface Builder<T> {
+interface Builder<B extends Builder<B, T>, T> {
     T build();
+    B instance();
 }

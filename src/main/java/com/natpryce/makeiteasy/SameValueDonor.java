@@ -1,7 +1,7 @@
 package com.natpryce.makeiteasy;
 
 /**
- * Always gives the sale value.
+ * Always gives the same value.
  */
 public class SameValueDonor<T> implements Donor<T> {
     private final T value;

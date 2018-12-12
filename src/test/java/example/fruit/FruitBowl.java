@@ -18,10 +18,12 @@ public class FruitBowl {
         }
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean isEmpty() {
         return contents.isEmpty();
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public Fruit takeOne() {
         return contents.pop();
     }

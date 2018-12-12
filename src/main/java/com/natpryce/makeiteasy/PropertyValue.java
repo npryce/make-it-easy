@@ -7,7 +7,7 @@ package com.natpryce.makeiteasy;
  * @param <V> the type of the value of the property
  */
 public class PropertyValue<T, V> {
-    private final Property<T,V> property;
+    private final Property<T, V> property;
     private final Donor<? extends V> valueDonor;
 
     public PropertyValue(Property<T, V> property, Donor<? extends V> valueDonor) {

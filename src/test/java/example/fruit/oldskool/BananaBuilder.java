@@ -1,36 +1,42 @@
 package example.fruit.oldskool;
 
-import example.fruit.Banana;
+import example.fruit.oldskool.immutable.Banana;
 
-public class BananaBuilder implements Builder<Banana> {
-    private double ripeness = 0.0;
-    private double curve = 0.5;
+public class BananaBuilder implements Builder<BananaBuilder, Banana> {
+    public double ripeness = 0.0;
+    public double curve = 0.5;
 
-    private BananaBuilder() {}
+    private BananaBuilder() {
+    }
 
-    public static BananaBuilder aBanana() {
+    static Builder<BananaBuilder, Banana> aBanana() {
         return new BananaBuilder();
     }
 
-    public Banana build() {
-        Banana banana = new Banana(curve);
-        banana.ripen(ripeness);
-        return banana;
-    }
-
-    public BananaBuilder withRipeness(double ripeness){
+    BananaBuilder withRipeness(double ripeness) {
         this.ripeness = ripeness;
-        return this;
+        return instance();
     }
 
-    public BananaBuilder withCurve(double curve) {
+    BananaBuilder withCurve(double curve) {
         this.curve = curve;
-        return this;
+        return instance();
     }
-    
+
+    @SuppressWarnings({"UnusedDeclaration"})
     public BananaBuilder but() {
         return new BananaBuilder()
                 .withRipeness(ripeness)
                 .withCurve(curve);
+    }
+
+    @Override
+    public Banana build() {
+        return new Banana(this);
+    }
+
+    @Override
+    public BananaBuilder instance() {
+        return this;
     }
 }

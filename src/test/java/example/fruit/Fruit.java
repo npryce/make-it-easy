@@ -7,6 +7,7 @@ public abstract class Fruit {
         ripeness = Math.min(1.0, ripeness+amount);
     }
 
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean isRipe() {
         return ripeness == 1.0;
     }

@@ -1,7 +1,6 @@
 package com.natpryce.makeiteasy.sequence;
 
 import com.natpryce.makeiteasy.Donor;
-
 import java.util.Iterator;
 
 public class ElementsSequence<T> implements Donor<T> {

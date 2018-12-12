@@ -8,11 +8,11 @@ public abstract class NewCollectionDonor<T extends Collection<E>, E> implements 
     private final Iterable<? extends Donor<? extends E>> elementDonors;
 
     @SafeVarargs
-    public NewCollectionDonor(Donor<? extends E>... elementDonors) {
+    NewCollectionDonor(Donor<? extends E>... elementDonors) {
         this(asList(elementDonors));
     }
 
-    public NewCollectionDonor(Iterable<? extends Donor<? extends E>> elementDonors) {
+    private NewCollectionDonor(Iterable<? extends Donor<? extends E>> elementDonors) {
         this.elementDonors = elementDonors;
     }
 

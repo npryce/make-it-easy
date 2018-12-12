@@ -2,15 +2,15 @@ package example.fruit.makeiteasy;
 
 import com.natpryce.makeiteasy.Instantiator;
 import com.natpryce.makeiteasy.Property;
-import static com.natpryce.makeiteasy.Property.newProperty;
-import com.natpryce.makeiteasy.PropertyLookup;
-import example.fruit.Apple;
-import example.fruit.Banana;
+import example.fruit.makeiteasy.immutable.Apple;
+import example.fruit.makeiteasy.immutable.Banana;
 import example.fruit.Fruit;
 import example.fruit.Tree;
 
-import static java.util.Collections.emptyList;
 import java.util.List;
+
+import static com.natpryce.makeiteasy.Property.newProperty;
+import static java.util.Collections.emptyList;
 
 
 /**
@@ -30,25 +30,22 @@ import java.util.List;
 public class TreeMaker {
     /* We must have a single instance of the fruit property for equals & hashCode to work properly...
      */
-    private static final Property<?,?> fruit = newProperty();
+    private static final Property<?, ?> fruit = newProperty();
 
     /* But because constants cannot have generic wildcards, we must expose the constant through a
      * generic method that forces the property to have the required static type
      */
     public static <F extends Fruit> Property<Tree<F>, Iterable<? extends F>> fruit() {
         //noinspection unchecked
-        return (Property<Tree<F>, Iterable<? extends F>>)fruit;
+        return (Property<Tree<F>, Iterable<? extends F>>) fruit;
     }
-    
-    public static <F extends Fruit> Instantiator<Tree<F>> Tree() {
-        return new Instantiator<Tree<F>>() {
-            @Override
-            public Tree<F> instantiate(PropertyLookup<Tree<F>> lookup) {
-                Property<Tree<F>, Iterable<? extends F>> fruit = fruit();
-                List<F> noFruit = emptyList();
 
-                return new Tree<>(lookup.valueOf(fruit, noFruit));
-            }
+    public static <F extends Fruit> Instantiator<Tree<F>> Tree() {
+        return lookup -> {
+            Property<Tree<F>, Iterable<? extends F>> fruit = fruit();
+            List<F> noFruit = emptyList();
+
+            return new Tree<>(lookup.valueOf(fruit, noFruit));
         };
     }
 

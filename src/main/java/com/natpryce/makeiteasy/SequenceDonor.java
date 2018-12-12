@@ -1,5 +1,6 @@
 package com.natpryce.makeiteasy;
 
+@SuppressWarnings({"UnusedDeclaration"})
 public abstract class SequenceDonor<T> {
     private long count = 0;
 

@@ -1,6 +1,9 @@
 package example.donors;
 
-import com.natpryce.makeiteasy.*;
+import com.natpryce.makeiteasy.Donor;
+import com.natpryce.makeiteasy.Instantiator;
+import com.natpryce.makeiteasy.Maker;
+import com.natpryce.makeiteasy.Property;
 import com.natpryce.makeiteasy.sequence.ChainedSequence;
 import com.natpryce.makeiteasy.sequence.IndexedSequence;
 import org.junit.Test;
@@ -11,27 +14,21 @@ import java.util.UUID;
 
 import static com.natpryce.makeiteasy.MakeItEasy.*;
 import static com.natpryce.makeiteasy.Property.newProperty;
-import static org.hamcrest.junit.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class DonorExample {
-    public static class NamedThing {
-        public final String name;
+    static class NamedThing {
+        final String name;
 
-        public NamedThing(String name) {
+        NamedThing(String name) {
             this.name = name;
         }
     }
 
-    public static final Property<NamedThing,String> name = newProperty();
-
-    public static final Instantiator<NamedThing> NamedThing = new Instantiator<NamedThing>() {
-        @Override
-        public NamedThing instantiate(PropertyLookup<NamedThing> lookup) {
-            return new NamedThing(lookup.valueOf(name, "anonymous"));
-        }
-    };
+    private static final Property<NamedThing, String> name = newProperty();
+    private static final Instantiator<NamedThing> NamedThing = lookup -> new NamedThing(lookup.valueOf(name, "anonymous"));
 
     @Test
     public void allocatingUniqueNames() {
@@ -49,7 +46,7 @@ public class DonorExample {
 
         assertThat(thing0.name, not(equalTo(thing1.name)));
     }
-    
+
     @Test
     public void allocatingNamesByIndex() {
         class NameSequence extends IndexedSequence<String> {
@@ -71,8 +68,14 @@ public class DonorExample {
     @Test
     public void allocatingNamesByChain() {
         Maker<NamedThing> aNamedThing = a(NamedThing, with(name, new ChainedSequence<String>() {
-            protected String firstValue() { return "X"; }
-            protected String valueAfter(String prevValue) { return prevValue + "'"; }
+            @Override
+            protected String firstValue() {
+                return "X";
+            }
+
+            protected String valueAfter(String prevValue) {
+                return prevValue + "'";
+            }
         }));
 
         NamedThing thing0 = make(aNamedThing);

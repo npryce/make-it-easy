@@ -1,36 +1,43 @@
 package example.fruit.oldskool;
 
-import example.fruit.Apple;
 
-public class AppleBuilder implements Builder<Apple> {
-    private double ripeness = 0.0;
-    private int leaves = 1;
+import example.fruit.oldskool.immutable.Apple;
 
-    private AppleBuilder() {}
+public class AppleBuilder implements Builder<AppleBuilder, Apple> {
+    public double ripeness = 0.0;
+    public int leaves = 1;
 
-    public static AppleBuilder anApple() {
+    private AppleBuilder() {
+    }
+
+    static AppleBuilder anApple() {
         return new AppleBuilder();
     }
 
-    public Apple build() {
-        Apple apple = new Apple(leaves);
-        apple.ripen(ripeness);
-        return apple;
-    }
-
-    public AppleBuilder withRipeness(double ripeness){
+    AppleBuilder withRipeness(double ripeness) {
         this.ripeness = ripeness;
-        return this;
+        return instance();
     }
 
-    public AppleBuilder withLeaves(int leaves) {
+    AppleBuilder withLeaves(int leaves) {
         this.leaves = leaves;
-        return this;
+        return instance();
     }
 
-    public AppleBuilder but() {
+    @SuppressWarnings({"UnusedDeclaration"})
+    AppleBuilder but() {
         return new AppleBuilder()
                 .withRipeness(ripeness)
                 .withLeaves(leaves);
+    }
+
+    @Override
+    public Apple build() {
+        return new Apple(this);
+    }
+
+    @Override
+    public AppleBuilder instance() {
+        return this;
     }
 }
